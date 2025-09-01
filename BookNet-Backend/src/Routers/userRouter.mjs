@@ -1,10 +1,10 @@
 import { Router } from "express";
 import userControlers from "../Controllers/userControlers.mjs";
-import { userDataValidator } from "../Utils/validationMethods.mjs";
+import { comValidate, userDataValidator } from "../Utils/validationMethods.mjs";
 
 const userRouter = Router();
 
-userRouter.post("/add-user", userDataValidator(), userControlers.createNewUser);
+userRouter.post("/add-user", comValidate(), userControlers.createNewUser);
 
 // userRouter.delete("/delete-user/:id", userControlers.deleteUser);
 
