@@ -1,0 +1,193 @@
+{
+	"info": {
+		"_postman_id": "84d0db2f-2822-4f41-a61f-83348af1b2e8",
+		"name": "User Management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39894081"
+	},
+	"item": [
+		{
+			"name": "All Users",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWY0Y3k3M24wMDAwZHA2MGtkYmc4emR5IiwiaWF0IjoxNzU2OTI5ODg0LCJleHAiOjE3NTY5MzAxODR9.zwzn3wPAWvpAj3VIpqaWDa2WtCY7DChWB52nWAHuioE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/api/v1/users",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"admin\",\r\n    \"lastName\": \"admin\",\r\n    \"username\": \"admin\",\r\n    \"email\": \"admin@gmail.com\",\r\n    \"password\": \"Dushan@2025\",\r\n    \"confirmPassword\": \"Dushan@2025\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/v1/users/register",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User  Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n    \"emailOrUsername\": \"admin@gmail.com\",\r\n    \"password\": \"Dushan@2025\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/v1/users/login",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User by ID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWY0Y3k3M24wMDAwZHA2MGtkYmc4emR5IiwiaWF0IjoxNzU2OTI4MzQ2LCJleHAiOjE3NTY5Mjg2NDZ9.svDH1Hke2HCIyW8uz4L-2IhyE4470QMjowgG6J8Igxo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/api/v1/users/cmf4b9qsb0001dp803qpt8vr0",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"cmf4b9qsb0001dp803qpt8vr0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Profile Update or Create",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"image\":\"Image Link\",\r\n        \"dob\":\"2001-08-24\", \r\n        \"gender\":\"Male\",\r\n        \"designation\":\"Web Developer\",\r\n        \"mobile\":\"0719675669\",\r\n        \"address\":\"Matara\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/v1/users/cmf460jbk0000dpzgqce4yg7t",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"cmf460jbk0000dpzgqce4yg7t"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Profile Details by ID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWY0Y3k3M24wMDAwZHA2MGtkYmc4emR5IiwiaWF0IjoxNzU2OTI5ODg0LCJleHAiOjE3NTY5MzAxODR9.zwzn3wPAWvpAj3VIpqaWDa2WtCY7DChWB52nWAHuioE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/v1/users/cmf460jbk0000dpzgqce4yg7t",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"cmf460jbk0000dpzgqce4yg7t"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
