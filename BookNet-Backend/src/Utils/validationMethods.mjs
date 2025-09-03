@@ -40,6 +40,8 @@ export const RegisterValidator = () => [
       }),
 ];
 
+//User data Fields validate------------------------------------------------------------------------------------------------------------------------
+
 export const userDataValidator = () => [
    body("first_name").notEmpty().withMessage("First Name is required"),
    body("last_name").notEmpty().withMessage("Last Name is required"),
