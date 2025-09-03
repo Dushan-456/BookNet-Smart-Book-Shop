@@ -1,0 +1,51 @@
+import jwt from "jsonwebtoken";
+import DB from "../db/db.mjs";
+
+const authMiddleware = async (req, res, next) => {
+   try {
+      // Get token from header or cookie
+      const authHeader = req.headers.authorization;
+
+      const token =
+         authHeader && authHeader.startsWith("Bearer ")
+            ? authHeader.split(" ")[1]
+            : req.cookies?.token;
+
+      // If no token found
+      if (!token) {
+         return res.status(401).json({
+            msg: "error",
+            error: "Sorry Access Denied. No token provided.",
+            data: null,
+         });
+      }
+
+      // Verify token
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+      // Get user from the database and attach it to the request object
+      // Exclude the password from the user object
+      req.authUser = await DB.user.findUnique({
+         where: { id: decoded.userId },
+         select: {
+            id: true,
+            email: true,
+            username: true,
+            role: true,
+         },
+      });
+
+      if (!req.authUser) {
+         return res
+            .status(401)
+            .json({ message: "Not authorized, user not found" });
+      }
+
+      next(); 
+   } catch (err) {
+      return   res.status(401).json({ message: 'Not authorized, token Invalid or Expied' });
+
+   }
+};
+
+export default authMiddleware;
