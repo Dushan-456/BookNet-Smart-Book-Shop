@@ -1,7 +1,10 @@
 import jwt from "jsonwebtoken";
 import DB from "../db/db.mjs";
 
-const authMiddleware = async (req, res, next) => {
+
+// Middleware to check if the user is logged in--------------------------------------------------------------------------
+
+export const loginProtect = async (req, res, next) => {
    try {
       // Get token from header or cookie
       const authHeader = req.headers.authorization;
@@ -48,4 +51,13 @@ const authMiddleware = async (req, res, next) => {
    }
 };
 
-export default authMiddleware;
+// Middleware to check if the user is an admin-------------------------------------------------------------
+
+export const protectedToAdmin = (req, res, next) => {
+
+    if (req.authUser && req.authUser.role === 'ADMIN') {
+    next(); 
+  } else {
+    res.status(403).json({ message: 'Not authorized as an admin' });
+  }
+};
