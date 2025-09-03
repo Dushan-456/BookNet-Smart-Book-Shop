@@ -2,26 +2,26 @@ import { body, query } from "express-validator";
 
 //Registration Fields validate------------------------------------------------------------------------------------------------------------------------
 export const RegisterValidator = () => [
-   body("FirstName")
+   body("firstName")
    .trim()
    .escape()
    .notEmpty().withMessage("Please Enter First Name"),
-   body("LastName")
+   body("lastName")
    .trim()
    .escape()
    .notEmpty().withMessage("Please Enter Last Name"),
-   body("Username")
+   body("username")
       .trim()
       .escape()
       .notEmpty().withMessage("Please Enter Correct Username"),
 
-   body("Email")
+   body("email")
       .trim()
       .escape()
       .notEmpty().withMessage("Please Enter  Email")           
       .isEmail().withMessage("Please Enter Correct Email"),
 
-   body("Password")
+   body("password")
       .notEmpty().withMessage("please enter password")
       .isStrongPassword({
          minLength: 8,
@@ -30,10 +30,10 @@ export const RegisterValidator = () => [
          minNumbers: 1,
          minSymbols: 1,
       }).withMessage("Password must include at least 8 characters, 1 lowercase, 1 uppercase, 1 number, and 1 symbol"),
-   body("ConfirmPassword")
+   body("confirmPassword")
       .notEmpty().withMessage("Please confirm your password")
       .custom((value, { req }) => {
-        if (value !== req.body.Password) {
+        if (value !== req.body.password) {
           throw new Error("Passwords do not match");
         }
         return true;
@@ -44,12 +44,12 @@ export const RegisterValidator = () => [
 
 export const ProfileFieldsValidator = () => [
  
-   body("Image"),
-   body("DOB").trim().escape(),
-   body("Gender").trim().escape(),
-   body("Designation").trim().escape(),
-   body("Mobile").trim().escape(),
-   body("Address").trim().escape(),
+   body("image"),
+   body("dob").trim().escape(),
+   body("gender").trim().escape(),
+   body("designation").trim().escape(),
+   body("mobile").trim().escape(),
+   body("address").trim().escape(),
 ];
 
 //login Fields validate------------------------------------------------------------------------------------------------------------------------
