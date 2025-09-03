@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 //token genarate------------------------------------------------
 
 export const generateToken = (payload)=>{
-    const token = jwt.sign(payload,process.env.JWT_SECRET,{expiresIn:'1m'})
+    const token = jwt.sign(payload,process.env.JWT_SECRET,{expiresIn:'5m'})
     return token;
 }
 
