@@ -1,11 +1,13 @@
 import { Router } from "express";
 import userControlers from "../Controllers/userControlers.mjs";
 import profileControlers from "../Controllers/profileControlers.mjs";
-import { ProfileFieldsValidator, RegisterValidator } from "../middleware/validationMethods.mjs";
+import { loginValidator, ProfileFieldsValidator, RegisterValidator } from "../middleware/validationMethods.mjs";
 
 const userRouter = Router();
 
 userRouter.post("/register", RegisterValidator(), userControlers.RegisterNewUser);
+
+userRouter.post("/login", loginValidator(), userControlers.loginUser);
 
 userRouter.delete("/delete/:id", userControlers.deleteUserById);
 
