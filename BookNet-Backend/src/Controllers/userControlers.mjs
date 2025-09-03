@@ -42,7 +42,7 @@ class UserController {
             });
 
         } catch (error) {
-            console.error('Error creating user:', error);
+            console.error('Error Registering user:', error);
 
             if (error.code === 'P2002') {
                 const field = error.meta.target[0]; // e.g., 'Username' or 'Email'
@@ -59,22 +59,29 @@ class UserController {
     //Get All Users------------------------------------------------------------------------------------------------------------------------------
     showAllUsers = async (req, res) => {
         try {
-            const users = await DB.user.findMany(
-                {
+            const users = await DB.user.findMany({
+            select: {
+                id: true,
+                Username: true,
+                Email: true,
+                createAt: true,
+                updateAt: true,
+
+                Profile: {
                     select: {
-                        id: true,
-                        Username: true,
-                        Email: true,
-                        createAt: true,
-                        updateAt: true,
+                        Image: true,
+                        FirstName: true,
                     },
-                }
-            );
+                },
+            },
+        });
             return res.status(200).json({
                 msg: "All Users",
                 data: users,
             });
         } catch (error) {
+            console.error('Error :', error);
+
             return res.status(500).json({
                 msg: "error",
                 error: "Internal Server Error",
@@ -136,8 +143,35 @@ class UserController {
         }
     };
 
-    //Update UserProfile------------------------------------------------------------------------------------------------------------------------------
+    //Get User Details by ID------------------------------------------------------------------------------------------------------------------------------
 
+    //DeleteUser by ID------------------------------------------------------------------------------------------------------------------------------
+    deleteUserById = async (req, res) => {
+        const { id } = req.params;
+        const userId = parseInt(id);
+
+        if (isNaN(userId)) {
+            return res.status(400).json({ message: 'Invalid user ID provided.' });
+        }
+
+        try {
+            const users = await DB.user.delete({
+                where: {
+                    id: userId,
+                },
+            });
+
+            return res.status(200).json({ message: 'User deleted successfully.' });
+
+        } catch (error) {
+
+            console.error('Error deleting user:', error);
+            return res.status(500).json({
+                msg: "error",
+                error: "Internal Server Error",
+            });
+        }
+    };
 
 
 }
