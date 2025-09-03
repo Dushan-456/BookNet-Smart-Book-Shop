@@ -22,10 +22,16 @@ model User {
 
 model Profile{
   Id Int @id @default(autoincrement())
-  Image String
+  Image String?
   User User  @relation(fields:[UserId],references: [id])
   UserId Int @unique
-  FirstName String
+  FirstName String?
+  LastName String?
+  DOB DateTime?
+  Gender String?
+  Designation String?
+  Mobile String?
+  Address String?
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 }
