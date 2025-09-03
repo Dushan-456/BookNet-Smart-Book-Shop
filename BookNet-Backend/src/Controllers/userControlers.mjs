@@ -65,6 +65,8 @@ class UserController {
                 select: {
                     id: true,
                     Username: true,
+                    FirstName: true,
+                    LastName: true,
                     Email: true,
                     createAt: true,
                     updateAt: true,
@@ -72,7 +74,6 @@ class UserController {
                     Profile: {
                         select: {
                             Image: true,
-                            FirstName: true,
                         },
                     },
                 },
