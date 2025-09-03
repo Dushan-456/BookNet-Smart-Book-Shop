@@ -12,8 +12,8 @@ datasource db {
 
 model User {
   id       Int      @id @default(autoincrement())
-  Name     String?
-  Username String   @unique
+  Username     String @unique
+  Email String   @unique
   Password String
   Profile Profile?
   createAt DateTime @default(now())
