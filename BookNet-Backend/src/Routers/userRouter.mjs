@@ -1,14 +1,14 @@
 import { Router } from "express";
 import userControlers from "../Controllers/userControlers.mjs";
-import { comValidate, userDataValidator } from "../Utils/validationMethods.mjs";
+import { comValidate, RegisterValidator, userDataValidator } from "../Utils/validationMethods.mjs";
 
 const userRouter = Router();
 
-userRouter.post("/add-user", comValidate(), userControlers.createNewUser);
+userRouter.post("/register", RegisterValidator(), userControlers.RegisterNewUser);
 
 // userRouter.delete("/delete-user/:id", userControlers.deleteUser);
 
-// userRouter.get("/all-users", userControlers.showAllUsers);
+userRouter.get("/all-users", userControlers.showAllUsers);
 
 // userRouter.get("/:id", userControlers.getUserById);
 
