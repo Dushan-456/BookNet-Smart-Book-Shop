@@ -2,36 +2,36 @@ import { body, query } from "express-validator";
 
 //Registration Fields validate------------------------------------------------------------------------------------------------------------------------
 export const RegisterValidator = () => [
+   body("FirstName")
+   .trim()
+   .escape()
+   .notEmpty().withMessage("Please Enter First Name"),
+   body("LastName")
+   .trim()
+   .escape()
+   .notEmpty().withMessage("Please Enter Last Name"),
    body("Username")
       .trim()
       .escape()
-      .notEmpty()
-      .withMessage("Please Enter Correct Username"),
+      .notEmpty().withMessage("Please Enter Correct Username"),
 
    body("Email")
       .trim()
       .escape()
-      .notEmpty()
-      .withMessage("Please Enter  Email")           
-      .isEmail()
-      .withMessage("Please Enter Correct Email"),
+      .notEmpty().withMessage("Please Enter  Email")           
+      .isEmail().withMessage("Please Enter Correct Email"),
 
    body("Password")
-      .notEmpty()
-      .withMessage("please enter password")
+      .notEmpty().withMessage("please enter password")
       .isStrongPassword({
          minLength: 8,
          minLowercase: 1,
          minUppercase: 1,
          minNumbers: 1,
          minSymbols: 1,
-      })
-      .withMessage(
-         "Password must include at least 8 characters, 1 lowercase, 1 uppercase, 1 number, and 1 symbol"
-      ),
-      body("ConfirmPassword")
-      .notEmpty()
-      .withMessage("Please confirm your password")
+      }).withMessage("Password must include at least 8 characters, 1 lowercase, 1 uppercase, 1 number, and 1 symbol"),
+   body("ConfirmPassword")
+      .notEmpty().withMessage("Please confirm your password")
       .custom((value, { req }) => {
         if (value !== req.body.Password) {
           throw new Error("Passwords do not match");
@@ -40,19 +40,16 @@ export const RegisterValidator = () => [
       }),
 ];
 
-//User data Fields validate------------------------------------------------------------------------------------------------------------------------
+//User Profile Fields validate------------------------------------------------------------------------------------------------------------------------
 
-export const userDataValidator = () => [
-   body("first_name").notEmpty().withMessage("First Name is required"),
-   body("last_name").notEmpty().withMessage("Last Name is required"),
-   body("dob").notEmpty().withMessage("DOB is required"),
-   body("gender").notEmpty().withMessage("Gender is required"),
-   body("designation").notEmpty().withMessage("Designation is required"),
-   body("mobile").notEmpty().withMessage("Mobile Number is required"),
-   body("fb_profile").notEmpty().withMessage("Fb Profile is required"),
-   body("gmail").isEmail().withMessage("Valid Gmail required"),
-   body("age").isInt().withMessage("Age must be a number"),
-   body("address").notEmpty().withMessage("Address is required"),
+export const ProfileFieldsValidator = () => [
+ 
+   body("Image"),
+   body("DOB").trim().escape(),
+   body("Gender").trim().escape(),
+   body("Designation").trim().escape(),
+   body("Mobile").trim().escape(),
+   body("Address").trim().escape(),
 ];
 
 //login Fields validate------------------------------------------------------------------------------------------------------------------------
