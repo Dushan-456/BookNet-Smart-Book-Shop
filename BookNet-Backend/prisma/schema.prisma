@@ -12,6 +12,8 @@ datasource db {
 
 model User {
   id       Int      @id @default(autoincrement())
+  FirstName     String 
+  LastName     String 
   Username     String @unique
   Email String   @unique
   Password String
@@ -23,10 +25,8 @@ model User {
 model Profile{
   Id Int @id @default(autoincrement())
   Image String?
-  User User  @relation(fields:[UserId],references: [id])
+  User User  @relation(fields:[UserId],references: [id], onDelete: Cascade)
   UserId Int @unique
-  FirstName String?
-  LastName String?
   DOB DateTime?
   Gender String?
   Designation String?
