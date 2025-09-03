@@ -6,7 +6,7 @@ const rootRouter = Router();
 
 rootRouter.get("/",(req,res)=> res.sendStatus(200));
 
-rootRouter.use("/user",userRouter)
+rootRouter.use("/users",userRouter)
 
 
 
