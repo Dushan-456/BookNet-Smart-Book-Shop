@@ -6,7 +6,7 @@ import {
    ProfileFieldsValidator,
    RegisterValidator,
 } from "../middleware/validationMethods.mjs";
-import authMiddleware from "../middleware/authMiddleware.mjs";
+import { loginProtect, protectedToAdmin } from "../middleware/authMiddleware.mjs";
 
 const userRouter = Router();
 
@@ -18,13 +18,13 @@ userRouter.post("/login", loginValidator(), userControlers.loginUser);
 
 // --- PROTECTED ROUTES (Require Authentication) ---
 
-userRouter.post("/:id",ProfileFieldsValidator(),authMiddleware,profileControlers.createOrUpdateUserProfile);
-userRouter.get("/:id", authMiddleware, userControlers.getUserAndProfileById);
+userRouter.post("/:id",ProfileFieldsValidator(),loginProtect,profileControlers.createOrUpdateUserProfile);
+userRouter.get("/:id", loginProtect, userControlers.getUserAndProfileById);
 
 
 // --- ADMIN-ONLY ROUTES (Require Authentication & Authorization) ---
 
-userRouter.get("/",authMiddleware, userControlers.showAllUsers);
-userRouter.delete("/:id", authMiddleware, userControlers.deleteUserById);
+userRouter.get("/",loginProtect,protectedToAdmin, userControlers.showAllUsers);
+userRouter.delete("/:id", loginProtect,protectedToAdmin, userControlers.deleteUserById);
 
 export default userRouter;
