@@ -10,30 +10,233 @@ datasource db {
 }
 
 
-model User {
-  id       Int      @id @default(autoincrement())
-  FirstName     String 
-  LastName     String 
-  Username     String @unique
-  Email String   @unique
-  Password String
-  Profile Profile?
-  createAt DateTime @default(now())
-  updateAt DateTime @updatedAt
+
+
+
+
+
+// --- ENUMS --
+
+enum Role {
+  CUSTOMER
+  ADMIN
+  DELIVERY
 }
 
+enum ProductType {
+  BOOK
+  EBOOK
+  STATIONERY
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  DISPATCHED
+  DELIVERED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum ServiceType {
+  PRINTING
+  TYPING
+  EDITING
+}
+
+enum ServiceStatus {
+  SUBMITTED
+  IN_PROGRESS
+  READY
+  DISPATCHED
+  DELIVERED
+  CANCELLED
+}
+
+enum DeliveryStatus {
+  PENDING
+  ASSIGNED
+  IN_TRANSIT
+  DELIVERED
+  RETURNED
+  CANCELLED
+}
+
+
+// --- MODELS ---
+
+model User {
+  id               String         @id @default(cuid())
+  firstName        String        
+  lastName         String         
+  email            String         @unique
+  username          String        @unique
+  passwordHash     String
+  role             Role           @default(CUSTOMER)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  // Relations
+  Profile          Profile?
+  carts            Cart[]
+  orders           Order[]
+  serviceOrders    ServiceOrder[]
+  deliveriesAssigned Delivery[]     @relation("DeliveryAssigned")
+  servicesAssigned ServiceOrder[]   @relation("ServiceAssigned")
+}
 model Profile{
-  Id Int @id @default(autoincrement())
-  Image String?
-  User User  @relation(fields:[UserId],references: [id], onDelete: Cascade)
-  UserId Int @unique
-  DOB DateTime?
-  Gender String?
-  Designation String?
-  Mobile String?
-  Address String?
-  createAt DateTime @default(now())
-  updateAt DateTime @updatedAt
+  id String         @id @default(cuid())
+  image String?
+  User User  @relation(fields:[userId],references: [id], onDelete: Cascade)
+  userId String @unique
+  dob DateTime?
+  gender String?
+  designation String?
+  mobile String?
+  address String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Category {
+  id       String     @id @default(cuid())
+  name     String
+  parentId String?
+  parent   Category?  @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children Category[] @relation("CategoryHierarchy")
+  products Product[]
+}
+
+model Product {
+  id          String      @id @default(cuid())
+  title       String
+  description String?
+  price       Decimal     @db.Decimal(10, 2)
+  type        ProductType
+  stock       Int         @default(0)
+  sku         String      @unique
+  isDigital   Boolean     @default(false)
+  downloadUrl String?
+  categoryId  String?
+  category    Category?   @relation(fields: [categoryId], references: [id])
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  // Relations
+  orderItems OrderItem[]
+  cartItems  CartItem[]
+}
+
+model Cart {
+  id        String     @id @default(cuid())
+  userId    String     @unique
+  user      User       @relation(fields: [userId], references: [id])
+  items     CartItem[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model CartItem {
+  id        String  @id @default(cuid())
+  cartId    String
+  productId String
+  quantity  Int
+  unitPrice Decimal @db.Decimal(10, 2)
+
+  cart    Cart    @relation(fields: [cartId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+
+  @@unique([cartId, productId])
+}
+
+model Order {
+  id              String        @id @default(cuid())
+  userId          String
+  status          OrderStatus   @default(PENDING)
+  paymentStatus   PaymentStatus @default(PENDING)
+  total           Decimal       @db.Decimal(10, 2)
+  paymentProvider String?
+  paymentIntentId String?
+  shippingName    String?
+  shippingPhone   String?
+  shippingLine1   String?
+  shippingLine2   String?
+  shippingCity    String?
+  shippingPostal  String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  user     User        @relation(fields: [userId], references: [id])
+  items    OrderItem[]
+  delivery Delivery?
+  payment  Payment?
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  productId String
+  quantity  Int
+  unitPrice Decimal @db.Decimal(10, 2)
+
+  order   Order   @relation(fields: [orderId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+}
+
+model Payment {
+  id             String        @id @default(cuid())
+  amount         Decimal       @db.Decimal(10, 2)
+  provider       String
+  status         PaymentStatus
+  transactionId  String?
+  
+  // --- CHANGE: A payment can be for an Order OR a ServiceOrder ---
+  orderId        String?       @unique 
+  order          Order?        @relation(fields: [orderId], references: [id])
+  
+  serviceOrderId String?       @unique 
+  serviceOrder   ServiceOrder? @relation(fields: [serviceOrderId], references: [id])
+}
+
+model ServiceOrder {
+  id              String        @id @default(cuid())
+  userId          String
+  type            ServiceType
+  details         Json?
+  fileUrl         String?
+  status          ServiceStatus @default(SUBMITTED)
+  price           Decimal       @db.Decimal(10, 2) @default(0)
+  assignedStaffId String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  user          User     @relation(fields: [userId], references: [id])
+  assignedStaff User?    @relation("ServiceAssigned", fields: [assignedStaffId], references: [id])
+  delivery      Delivery?
+  payment       Payment? // --- CHANGE: Added relation to Payment
+}
+
+model Delivery {
+  id              String        @id @default(cuid())
+  trackingCode    String        @unique
+  status          DeliveryStatus @default(PENDING)
+  assignedStaffId String?
+  updatedAt       DateTime      @updatedAt
+  createdAt       DateTime      @default(now())
+  
+  // --- CHANGE: Enforced uniqueness for relations ---
+  orderId         String?       @unique 
+  serviceOrderId  String?       @unique 
+  
+  order        Order?        @relation(fields: [orderId], references: [id])
+  serviceOrder ServiceOrder? @relation(fields: [serviceOrderId], references: [id])
+  assignedTo   User?         @relation("DeliveryAssigned", fields: [assignedStaffId], references: [id])
 }
 
 model Session{
