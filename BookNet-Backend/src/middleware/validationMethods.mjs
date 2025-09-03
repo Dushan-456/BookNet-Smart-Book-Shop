@@ -17,7 +17,7 @@ export const RegisterValidator = () => [
 
    body("email")
       .trim()
-      .escape()
+      .normalizeEmail()
       .notEmpty().withMessage("Please Enter  Email")           
       .isEmail().withMessage("Please Enter Correct Email"),
 
@@ -40,6 +40,19 @@ export const RegisterValidator = () => [
       }),
 ];
 
+//login Fields validate------------------------------------------------------------------------------------------------------------------------
+
+export const loginValidator = () => [
+   body("emailOrUsername")
+      .trim()
+      .escape()
+      .notEmpty()
+      .withMessage("Please Enter Username or Email"),
+   body("password")
+      .notEmpty()
+      .withMessage("Please Enter Password"),
+];
+
 //User Profile Fields validate------------------------------------------------------------------------------------------------------------------------
 
 export const ProfileFieldsValidator = () => [
@@ -52,21 +65,7 @@ export const ProfileFieldsValidator = () => [
    body("address").trim().escape(),
 ];
 
-//login Fields validate------------------------------------------------------------------------------------------------------------------------
 
-export const loginValidator = () => [
-   body("Username")
-      .trim()
-      .escape()
-      .notEmpty()
-      .withMessage("Please Enter Username"),
-
-   body("Password")
-      .trim()
-      .escape()
-      .notEmpty()
-      .withMessage("Please Enter Password"),
-];
 
 //common body Fields validate------------------------------------------------------------------------------------------------------------------------
 export const comValidate = (...keys) => {
