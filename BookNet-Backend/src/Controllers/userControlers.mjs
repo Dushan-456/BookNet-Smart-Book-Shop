@@ -77,15 +77,14 @@ class UserController {
          // Find user by email OR username
          const user = await DB.user.findFirst({
             where: {
-               OR: [
-                  { email: emailOrUsername }, 
-                  { username: emailOrUsername }, 
-               ],
+               OR: [{ email: emailOrUsername }, { username: emailOrUsername }],
             },
          });
 
          if (!user) {
-            return res.status(401).json({ message: "User Name or Email Not Registered in Sytem" });
+            return res
+               .status(401)
+               .json({ message: "User Name or Email Not Registered in Sytem" });
          }
 
          //  Compare passwords
@@ -111,6 +110,12 @@ class UserController {
 
    //Get All Users------------------------------------------------------------------------------------------------------------------------------
    showAllUsers = async (req, res) => {
+      const loggedInUser = req.authUser;
+
+      if (loggedInUser.role !== "ADMIN") {
+         return res.status(403).json({ message: "Not authorized as an admin" });
+      }
+
       try {
          const users = await DB.user.findMany({
             select: {
