@@ -110,11 +110,7 @@ class UserController {
 
    //Get All Users------------------------------------------------------------------------------------------------------------------------------
    showAllUsers = async (req, res) => {
-      const loggedInUser = req.authUser;
-
-      if (loggedInUser.role !== "ADMIN") {
-         return res.status(403).json({ message: "Not authorized as an admin" });
-      }
+  
 
       try {
          const users = await DB.user.findMany({
