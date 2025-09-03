@@ -25,6 +25,7 @@ model Profile{
   Image String
   User User  @relation(fields:[UserId],references: [id])
   UserId Int @unique
+  FirstName String
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 }
