@@ -1,7 +1,7 @@
 import { Router } from "express";
 import userControlers from "../Controllers/userControlers.mjs";
-import {  ProfileFieldsValidator, RegisterValidator } from "../Utils/validationMethods.mjs";
 import profileControlers from "../Controllers/profileControlers.mjs";
+import { ProfileFieldsValidator, RegisterValidator } from "../middleware/validationMethods.mjs";
 
 const userRouter = Router();
 
