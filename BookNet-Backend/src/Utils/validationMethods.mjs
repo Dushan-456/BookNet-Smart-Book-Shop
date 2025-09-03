@@ -6,23 +6,38 @@ export const RegisterValidator = () => [
       .trim()
       .escape()
       .notEmpty()
-      .withMessage("Please Enter Username"),
+      .withMessage("Please Enter Correct Username"),
 
-   body("Name").trim().escape().notEmpty().withMessage("Please Enter Name"),
+   body("Email")
+      .trim()
+      .escape()
+      .notEmpty()
+      .withMessage("Please Enter  Email")           
+      .isEmail()
+      .withMessage("Please Enter Correct Email"),
 
    body("Password")
       .notEmpty()
       .withMessage("please enter password")
       .isStrongPassword({
          minLength: 8,
-         minLowercase: 2,
+         minLowercase: 1,
          minUppercase: 1,
          minNumbers: 1,
          minSymbols: 1,
       })
       .withMessage(
-         "Password must include at least 8 characters, 2 lowercase, 1 uppercase, 1 number, and 1 symbol"
+         "Password must include at least 8 characters, 1 lowercase, 1 uppercase, 1 number, and 1 symbol"
       ),
+      body("ConfirmPassword")
+      .notEmpty()
+      .withMessage("Please confirm your password")
+      .custom((value, { req }) => {
+        if (value !== req.body.Password) {
+          throw new Error("Passwords do not match");
+        }
+        return true;
+      }),
 ];
 
 export const userDataValidator = () => [
