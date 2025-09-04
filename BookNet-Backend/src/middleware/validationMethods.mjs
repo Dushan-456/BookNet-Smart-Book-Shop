@@ -74,6 +74,51 @@ export const CategoryFieldsValidator = () => [
 
 ];
 
+//Product Fields validate------------------------------------------------------------------------------------------------------------------------
+
+export const productFieldsValidator = () => [
+   body("title")
+      .trim()
+      .escape()
+      .notEmpty()
+      .withMessage("Title is required Please Enter Title"),
+   body("price")
+      .trim()
+      .escape()
+      .isNumeric().withMessage("Please Enter Numbers")
+      .notEmpty()
+      .withMessage("Price is required Please Enter Price"),
+   body("type")
+      .trim()
+      .escape()
+      .notEmpty()
+      .withMessage("Type is required Please Enter Type"),
+   body("sku")
+      .trim()
+      .escape()
+      .notEmpty()
+      .withMessage("SKU is required Please Enter SKU"),
+   body("stock")
+      .trim()
+      .escape()
+      .isNumeric().withMessage("Please Enter Numbers")
+      .notEmpty()
+      .withMessage("Stock is required Please Enter Stock"),
+   body("description")
+      .trim()
+      .escape(),
+   body("isDigital")
+      .trim()
+      .escape(),
+   body("downloadUrl")
+      .trim()
+      .escape(),
+   body("categoryId")
+      .trim()
+      .escape(),
+ 
+];
+
 
 //common body Fields validate------------------------------------------------------------------------------------------------------------------------
 export const commonValidate = (...keys) => {
