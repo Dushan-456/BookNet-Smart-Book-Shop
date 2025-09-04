@@ -53,6 +53,7 @@ export const loginValidator = () => [
       .withMessage("Please Enter Password"),
 ];
 
+
 //User Profile Fields validate------------------------------------------------------------------------------------------------------------------------
 
 export const ProfileFieldsValidator = () => [
@@ -64,11 +65,18 @@ export const ProfileFieldsValidator = () => [
    body("mobile").trim().escape(),
    body("address").trim().escape(),
 ];
+//Category Fields validate------------------------------------------------------------------------------------------------------------------------
 
+export const CategoryFieldsValidator = () => [
+ 
+   body("name").trim().escape().notEmpty().withMessage("Category name is required"),
+   body("parentId").trim().escape(),
+
+];
 
 
 //common body Fields validate------------------------------------------------------------------------------------------------------------------------
-export const comValidate = (...keys) => {
+export const commonValidate = (...keys) => {
    const validateValues = [];
    keys.forEach((k) => {
       validateValues.push(
