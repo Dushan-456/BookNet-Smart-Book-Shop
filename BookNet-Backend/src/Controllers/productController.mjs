@@ -3,15 +3,9 @@ import { matchedData, validationResult } from "express-validator";
 import DB from "../db/db.mjs";
 
 class ProductController {
-   //Create or Update UserProfile------------------------------------------------------------------------------------------------------------------------------
+   //Create New Product------------------------------------------------------------------------------------------------------------------------------
 
-   createOrUpdateUserProfile = async (req, res) => {
-      const { id } = req.params;
-
-      if (!id) {
-         return res.status(400).json({ message: "User ID is required." });
-      }
-
+   createProduct = async (req, res) => {
       const error = validationResult(req);
       const creatingError = errorCreate(error.array());
       if (error.array().length) {
@@ -22,64 +16,213 @@ class ProductController {
          });
       }
 
-      const {
-         image,
-         dob,
-         gender,
-         designation,
-         mobile,
-         address,
+      let {
+         title,
+         description,
+         price,
+         type,
+         stock,
+         sku,
+         isDigital,
+         downloadUrl,
+         categoryId,
       } = matchedData(req);
 
+      // onvert types before validation ---
+      const stockNumber = stock ? parseInt(stock, 10) : 0;
+      const priceDecimal = price ? parseFloat(price) : 0.0;
+      const isDigitalBool = isDigital === "true"; // Converts "true" to true, everything else to false
+
+      // Handle optional categoryId being an empty string
+      if (categoryId === "") {
+         categoryId = null;
+      }
 
       try {
-         const user = await DB.user.findUnique({
-            where: { id },
-         });
-
-         if (!user) {
-            return res
-               .status(404)
-               .json({ message: `User with ID ${id} not found.` });
+         //  Check if the category exists before creating the product
+         if (categoryId) {
+            const categoryExists = await DB.category.findUnique({
+               where: { id: categoryId },
+            });
+            if (!categoryExists) {
+               return res.status(400).json({ message: "Category not found" });
+            }
          }
-         const profile = await DB.profile.upsert({
-            where: {
-               userId: id,
+
+         const newProduct = await DB.product.create({
+            data: {
+               title,
+               description,
+               price: priceDecimal,
+               type,
+               stock: stockNumber,
+               sku,
+               isDigital: isDigitalBool,
+               downloadUrl,
+               categoryId,
             },
-            // `update` object for when the profile exists
-            update: {
-               image,
-               dob: dob ? new Date(dob) : undefined,
-               gender,
-               designation,
-               mobile,
-               address,
+         });
+         res.status(201).json({ message: "Product Created", newProduct });
+      } catch (error) {
+         if (error.code === "P2002") {
+            // Handles unique constraint violation for 'sku'
+            return res.status(409).json({ message: "SKU already exists." });
+         }
+         console.error("Error creating product:", error);
+         res.status(500).json({ message: "Internal Server error" });
+      }
+   };
+
+   //Get All Product------------------------------------------------------------------------------------------------------------------------------
+
+   getAllProducts = async (req, res) => {
+      const {
+         category,
+         type,
+         sortBy = "createdAt",
+         sortOrder = "desc",
+         page = 1,
+         limit = 10,
+      } = req.query;
+
+      try {
+         const pageNum = parseInt(page);
+         const limitNum = parseInt(limit);
+         const skip = (pageNum - 1) * limitNum;
+
+         // Build filter conditions dynamically
+         const where = {};
+         if (category) where.categoryId = category;
+         if (type) where.type = type;
+
+         // Get total count for pagination metadata
+         const totalProducts = await DB.product.count({ where });
+
+         const products = await DB.product.findMany({
+            where,
+            skip,
+            take: limitNum,
+            orderBy: {
+               [sortBy]: sortOrder,
             },
-            // `create` object for when the profile does NOT exist
-            create: {
-               User: {
-                  connect: { id },
+            include: {
+               // Include category name for context
+               category: {
+                  select: { name: true },
                },
-               image,
-               dob: dob ? new Date(dob) : undefined,
-               gender,
-               designation,
-               mobile,
-               address,
             },
          });
 
          res.status(200).json({
-            message: "Profile saved successfully!",
-            profile: profile,
+            message: "Products retrieved successfully!",
+            data: products,
+            pagination: {
+               totalProducts,
+               totalPages: Math.ceil(totalProducts / limitNum),
+               currentPage: pageNum,
+            },
          });
       } catch (error) {
-         console.log(error);
+         console.error("Error fetching products:", error);
+         res.status(500).json({ message: "Internal Server error" });
+      }
+   };
 
-         return res.status(500).json({
-            msg: "error",
-            error: "Internal Server Error",
+   //Get  Product by ID------------------------------------------------------------------------------------------------------------------------------
+
+   getProductById = async (req, res) => {
+      const { id } = req.params;
+      try {
+         const product = await DB.product.findUnique({
+            where: { id },
+            include: {
+               category: true,
+            },
          });
+
+         if (!product) {
+            return res.status(404).json({ message: "Product not found" });
+         }
+
+         res.status(200).json(product);
+      } catch (error) {
+         console.error("Error fetching product:", error);
+         res.status(500).json({ message: "Server error" });
+      }
+   };
+
+   //Update Product by ID------------------------------------------------------------------------------------------------------------------------------
+
+   updateProduct = async (req, res) => {
+      const { id } = req.params;
+      const error = validationResult(req);
+      const creatingError = errorCreate(error.array());
+      if (error.array().length) {
+         return res.status(400).json({
+            msg: "Validation error",
+            error: creatingError,
+            data: null,
+         });
+      }
+
+      const { ...dataToUpdate } = matchedData(req);
+
+      try {
+         if (dataToUpdate.stock) {
+            dataToUpdate.stock = parseInt(dataToUpdate.stock, 10);
+         }
+         if (dataToUpdate.price) {
+            dataToUpdate.price = parseFloat(dataToUpdate.price);
+         }
+         if (dataToUpdate.isDigital) {
+            dataToUpdate.isDigital = dataToUpdate.isDigital === "true";
+         }
+         const updatedProduct = await DB.product.update({
+            where: { id },
+            data: dataToUpdate,
+         });
+         res.status(200).json({ message: "Product Updated", updatedProduct });
+      } catch (error) {
+         if (error.code === "P2025") {
+            return res
+               .status(404)
+               .json({ message: `Product with ID ${id} not found.` });
+         }
+         if (error.code === "P2002") {
+            return res.status(409).json({ message: "SKU already exists." });
+         }
+         console.error("Error updating product:", error);
+         res.status(500).json({ message: "Internal Server error" });
+      }
+   };
+
+
+   //Delete Product by ID------------------------------------------------------------------------------------------------------------------------------
+
+   deleteProduct = async (req, res) => {
+      const { id } = req.params;
+      try {
+         await DB.product.delete({
+            where: { id },
+         });
+         res.status(200).json({ message: "Product deleted successfully." });
+      } catch (error) {
+         if (error.code === "P2025") {
+            return res
+               .status(404)
+               .json({ message: `Product with ID ${id} not found.` });
+         }
+         // This error happens if you try to delete a product that is part of an order
+         if (error.code === "P2003") {
+            return res
+               .status(409)
+               .json({
+                  message:
+                     "Cannot delete product as it is part of existing orders.",
+               });
+         }
+         console.error("Error deleting product:", error);
+         res.status(500).json({ message: "Server error" });
       }
    };
 }
