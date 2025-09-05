@@ -2,11 +2,11 @@ import { errorCreate } from "../Utils/error-creator.mjs";
 import { matchedData, validationResult } from "express-validator";
 import DB from "../db/db.mjs";
 import bcrypt from "bcrypt";
-import {  generateTokenWithCookies } from "../Utils/jwt.mjs";
+import { generateTokenWithCookies } from "../Utils/jwt.mjs";
 import { mergeCarts } from "../Utils/cartUtils.mjs";
 
 class UserController {
-/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+   /**------------------------------------------------------------------------------------------------------------------------------------------------------------
  * @description    New User Registration
  * @route          POST /api/v1/users/register
  * @access         Public
@@ -50,7 +50,6 @@ class UserController {
          // Respond with the created user (omitting the password)
          const { passwordHash: _, ...userWithoutPassword } = newUser;
 
-
          generateTokenWithCookies(res, newUser.id);
 
          res.status(201).json({
@@ -71,7 +70,7 @@ class UserController {
       }
    };
 
-/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+   /**------------------------------------------------------------------------------------------------------------------------------------------------------------
  * @description    User Login
  * @route          POST /api/v1/users/login
  * @access         Public
@@ -120,7 +119,7 @@ class UserController {
             //  Generate token and respond
             generateTokenWithCookies(res, user.id);
             res.status(200).json({
-               message:"Login Successfull",
+               message: "Login Successfull",
                id: user.id,
                username: user.username,
                email: user.email,
@@ -132,20 +131,20 @@ class UserController {
       }
    };
 
-/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+   /**------------------------------------------------------------------------------------------------------------------------------------------------------------
  * @description    Logout user / clear cookie
  * @route          POST /api/v1/users/logout
  * @access         Public
  ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
    logoutUser = (req, res) => {
-  res.cookie('jwt', '', {
-    httpOnly: true,
-    expires: new Date(0), 
-  });
-  res.status(200).json({ message: 'Logged out successfully' });
-};
+      res.cookie("jwt", "", {
+         httpOnly: true,
+         expires: new Date(0),
+      });
+      res.status(200).json({ message: "Logged out successfully" });
+   };
 
-/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+   /**------------------------------------------------------------------------------------------------------------------------------------------------------------
  * @description    Get All Users
  * @route          GET /api/v1/users/
  * @access         Admin
@@ -184,7 +183,7 @@ class UserController {
       }
    };
 
-/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+   /**------------------------------------------------------------------------------------------------------------------------------------------------------------
  * @description    DeleteUser by ID
  * @route          DELETE /api/v1/users/:id
  * @access         Admin
@@ -218,15 +217,21 @@ class UserController {
       }
    };
 
-/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+   /**------------------------------------------------------------------------------------------------------------------------------------------------------------
  * @description    Get User Profile Details by ID
  * @route          GET /api/v1/users/:id
  * @access         Authenticated User
  ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
    getUserAndProfileById = async (req, res) => {
-      const { id } = req.params;
+      const id = req.params.id;
+      const loggedInUser = req.authUser; // From 'protect' middleware
       if (!id) {
          return res.status(400).json({ message: "User ID is required." });
+      }
+      if (loggedInUser.id !== id && loggedInUser.role !== "ADMIN") {
+         return res.status(403).json({
+            message: "Access denied. You can only view your own profile.",
+         });
       }
       try {
          const user = await DB.user.findUnique({
