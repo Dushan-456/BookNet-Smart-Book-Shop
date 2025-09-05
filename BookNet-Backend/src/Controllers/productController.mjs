@@ -3,9 +3,99 @@ import { matchedData, validationResult } from "express-validator";
 import DB from "../db/db.mjs";
 
 class ProductController {
-   //Create New Product------------------------------------------------------------------------------------------------------------------------------
 
-   createProduct = async (req, res) => {
+
+/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+ * @description    Get All Product
+ * @route          GET /api/v1/products/
+ * @access         Public
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+    getAllProducts = async (req, res) => {
+      const {
+         category,
+         type,
+         sortBy = "createdAt",
+         sortOrder = "desc",
+         page = 1,
+         limit = 10,
+      } = req.query;
+
+      try {
+         const pageNum = parseInt(page);
+         const limitNum = parseInt(limit);
+         const skip = (pageNum - 1) * limitNum;
+
+         // Build filter conditions dynamically
+         const where = {};
+         if (category) where.categoryId = category;
+         if (type) where.type = type;
+
+         // Get total count for pagination metadata
+         const totalProducts = await DB.product.count({ where });
+
+         const products = await DB.product.findMany({
+            where,
+            skip,
+            take: limitNum,
+            orderBy: {
+               [sortBy]: sortOrder,
+            },
+            include: {
+               // Include category name for context
+               category: {
+                  select: { name: true },
+               },
+            },
+         });
+
+         res.status(200).json({
+            message: "Products retrieved successfully!",
+            data: products,
+            pagination: {
+               totalProducts,
+               totalPages: Math.ceil(totalProducts / limitNum),
+               currentPage: pageNum,
+            },
+         });
+      } catch (error) {
+         console.error("Error fetching products:", error);
+         res.status(500).json({ message: "Internal Server error" });
+      }
+   };
+
+/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+ * @description    Get  Product by ID
+ * @route          GET /api/v1/products/:id
+ * @access         Public
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+    getProductById = async (req, res) => {
+      const { id } = req.params;
+      try {
+         const product = await DB.product.findUnique({
+            where: { id },
+            include: {
+               category: true,
+            },
+         });
+
+         if (!product) {
+            return res.status(404).json({ message: "Product not found" });
+         }
+
+         res.status(200).json(product);
+      } catch (error) {
+         console.error("Error fetching product:", error);
+         res.status(500).json({ message: "Server error" });
+      }
+   };
+
+
+/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+ * @description    Create/Add New Product
+ * @route          POST /api/v1/products/
+ * @access         Admin
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+    createProduct = async (req, res) => {
       const error = validationResult(req);
       const creatingError = errorCreate(error.array());
       if (error.array().length) {
@@ -73,87 +163,13 @@ class ProductController {
       }
    };
 
-   //Get All Product------------------------------------------------------------------------------------------------------------------------------
-
-   getAllProducts = async (req, res) => {
-      const {
-         category,
-         type,
-         sortBy = "createdAt",
-         sortOrder = "desc",
-         page = 1,
-         limit = 10,
-      } = req.query;
-
-      try {
-         const pageNum = parseInt(page);
-         const limitNum = parseInt(limit);
-         const skip = (pageNum - 1) * limitNum;
-
-         // Build filter conditions dynamically
-         const where = {};
-         if (category) where.categoryId = category;
-         if (type) where.type = type;
-
-         // Get total count for pagination metadata
-         const totalProducts = await DB.product.count({ where });
-
-         const products = await DB.product.findMany({
-            where,
-            skip,
-            take: limitNum,
-            orderBy: {
-               [sortBy]: sortOrder,
-            },
-            include: {
-               // Include category name for context
-               category: {
-                  select: { name: true },
-               },
-            },
-         });
-
-         res.status(200).json({
-            message: "Products retrieved successfully!",
-            data: products,
-            pagination: {
-               totalProducts,
-               totalPages: Math.ceil(totalProducts / limitNum),
-               currentPage: pageNum,
-            },
-         });
-      } catch (error) {
-         console.error("Error fetching products:", error);
-         res.status(500).json({ message: "Internal Server error" });
-      }
-   };
-
-   //Get  Product by ID------------------------------------------------------------------------------------------------------------------------------
-
-   getProductById = async (req, res) => {
-      const { id } = req.params;
-      try {
-         const product = await DB.product.findUnique({
-            where: { id },
-            include: {
-               category: true,
-            },
-         });
-
-         if (!product) {
-            return res.status(404).json({ message: "Product not found" });
-         }
-
-         res.status(200).json(product);
-      } catch (error) {
-         console.error("Error fetching product:", error);
-         res.status(500).json({ message: "Server error" });
-      }
-   };
-
-   //Update Product by ID------------------------------------------------------------------------------------------------------------------------------
-
-   updateProduct = async (req, res) => {
+  
+/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+ * @description    Update Product by ID
+ * @route          PUT /api/v1/products/:id
+ * @access         Admin
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+    updateProduct = async (req, res) => {
       const { id } = req.params;
       const error = validationResult(req);
       const creatingError = errorCreate(error.array());
@@ -197,8 +213,11 @@ class ProductController {
    };
 
 
-   //Delete Product by ID------------------------------------------------------------------------------------------------------------------------------
-
+/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+ * @description    Delete Product by ID
+ * @route          DELETE /api/v1/products/:id
+ * @access         Admin
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
    deleteProduct = async (req, res) => {
       const { id } = req.params;
       try {
