@@ -3,7 +3,7 @@ import {
    productFieldsValidator,
 } from "../middleware/validationMethods.mjs";
 import { loginProtect, protectedToAdmin } from "../middleware/authMiddleware.mjs";
-import productController from "../Controllers/productController.mjs";
+import productController from "../Controllers/productControllers.mjs";
 
 const productRouter = Router();
 
