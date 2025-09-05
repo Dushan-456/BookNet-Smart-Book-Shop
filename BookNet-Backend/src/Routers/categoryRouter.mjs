@@ -1,5 +1,5 @@
 import { Router } from "express";
-import categoryController from "../Controllers/categoryController.mjs";
+import categoryController from "../Controllers/categoryControllers.mjs";
 import { loginProtect, protectedToAdmin } from "../middleware/authMiddleware.mjs";
 import { CategoryFieldsValidator } from "../middleware/validationMethods.mjs";
 
