@@ -1,0 +1,132 @@
+{
+	"info": {
+		"_postman_id": "775740a4-86bf-4312-aba9-d130e3cddb73",
+		"name": "Product Management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39894081"
+	},
+	"item": [
+		{
+			"name": "Create Product",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n         \"title\":\"Sample Product3\",\r\n         \"description\":\"\",\r\n         \"price\":\"1000\",\r\n         \"type\":\"BOOK\",\r\n         \"stock\":20,\r\n         \"sku\":\"3d3\",\r\n         \"isDigital\":\"\",\r\n         \"downloadUrl\":\"\",\r\n         \"categoryId\":\"cmf5nzy2n0005dpcwflzbbo6u\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/v1/products/",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"products",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/api/v1/products/",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"products",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Product by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/api/v1/products/cmf5q3aqd0005dpw0ic8z35m3",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"products",
+						"cmf5q3aqd0005dpw0ic8z35m3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Product by ID",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n         \"title\":\"Product2\",\r\n         \"description\":\"\",\r\n         \"price\":\"100\",\r\n         \"type\":\"BOOK\",\r\n         \"stock\":20,\r\n         \"sku\":\"5646\",\r\n         \"isDigital\":\"szx\",\r\n         \"downloadUrl\":\"\",\r\n         \"categoryId\":\"cmf5nzy2n0005dpcwflzbbo6u\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/v1/products/cmf5q3aqd0005dpw0ic8z35m3",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"products",
+						"cmf5q3aqd0005dpw0ic8z35m3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Product",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n         \"title\":\"Product2\",\r\n         \"description\":\"\",\r\n         \"price\":\"100\",\r\n         \"type\":\"BOOK\",\r\n         \"stock\":20,\r\n         \"sku\":\"5646\",\r\n         \"isDigital\":\"szx\",\r\n         \"downloadUrl\":\"\",\r\n         \"categoryId\":\"cmf5nzy2n0005dpcwflzbbo6u\"\r\n}"
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/v1/products/cmf5r68c20003dplgxu6m87ph",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"products",
+						"cmf5r68c20003dplgxu6m87ph"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
