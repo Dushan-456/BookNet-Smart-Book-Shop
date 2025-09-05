@@ -1,0 +1,150 @@
+{
+	"info": {
+		"_postman_id": "cf7d3cb7-2821-4d29-ac06-6ecf3f081946",
+		"name": "Category Management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39894081"
+	},
+	"item": [
+		{
+			"name": "Get All Categories",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWY0Y3k3M24wMDAwZHA2MGtkYmc4emR5IiwiaWF0IjoxNzU2OTc5MDA2LCJleHAiOjE3NTY5NzkzMDZ9.QQm-Nh_EdVmrrMCT0kVcNDLcYUGQaX-iKl3d2NzOvL4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/api/v1/categories",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Category",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWY0Y3k3M24wMDAwZHA2MGtkYmc4emR5IiwiaWF0IjoxNzU2OTc5MDA2LCJleHAiOjE3NTY5NzkzMDZ9.QQm-Nh_EdVmrrMCT0kVcNDLcYUGQaX-iKl3d2NzOvL4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"IT aaaaaaaaaaaaaaaaaaaaaaaaa\",\r\n    \"parentId\":\"cmf5nym1y0001dpcw058jvzr3\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/v1/categories",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Category",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWY0Y3k3M24wMDAwZHA2MGtkYmc4emR5IiwiaWF0IjoxNzU2OTc5MDA2LCJleHAiOjE3NTY5NzkzMDZ9.QQm-Nh_EdVmrrMCT0kVcNDLcYUGQaX-iKl3d2NzOvL4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"IT Booksssssss\",\r\n    \"parentId\":\"cmf5nym1y0001dpcw058jvzr3\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/v1/categories/cmf5nzy2n0005dpcwflzbbo6u",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"categories",
+						"cmf5nzy2n0005dpcwflzbbo6u"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Category",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWY0Y3k3M24wMDAwZHA2MGtkYmc4emR5IiwiaWF0IjoxNzU2OTc5MDA2LCJleHAiOjE3NTY5NzkzMDZ9.QQm-Nh_EdVmrrMCT0kVcNDLcYUGQaX-iKl3d2NzOvL4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"IT Books\",\r\n    \"parentId\":\"cmf5nym1y0001dpcw058jvzr3\"\r\n}"
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/v1/categories/cmf5od6iw0003dpcc8oqgxvig",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"categories",
+						"cmf5od6iw0003dpcc8oqgxvig"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
