@@ -3,8 +3,11 @@ import { matchedData, validationResult } from "express-validator";
 import DB from "../db/db.mjs";
 
 class ProfileControlers {
-   //Create or Update UserProfile------------------------------------------------------------------------------------------------------------------------------
-
+/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+ * @description    Create or Update UserProfile
+ * @route          POST /api/v1/users/:id
+ * @access         Authenticated User
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
    createOrUpdateUserProfile = async (req, res) => {
       const { id } = req.params;
 
