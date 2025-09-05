@@ -1,6 +1,6 @@
 import DB from "../db/db.mjs";
 
-class CartControlers {
+class CartControllers {
 
 
 // Helper to get the correct 'where' clause for finding a cart
@@ -179,4 +179,4 @@ class CartControlers {
   }
 };
 }
-export default new CartControlers();
+export default new CartControllers();
