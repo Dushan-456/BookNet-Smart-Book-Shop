@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
   output   = "../src/generated/prisma"
@@ -8,7 +7,6 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-
 
 // --- ENUMS --
 
@@ -63,40 +61,40 @@ enum DeliveryStatus {
   CANCELLED
 }
 
-
 // --- MODELS ---
 
 model User {
-  id               String         @id @default(cuid())
-  firstName        String        
-  lastName         String         
-  email            String         @unique
-  username          String        @unique
-  passwordHash     String
-  role             Role           @default(CUSTOMER)
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
+  id           String   @id @default(cuid())
+  firstName    String
+  lastName     String
+  email        String   @unique
+  username     String   @unique
+  passwordHash String
+  role         Role     @default(CUSTOMER)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   // Relations
-  Profile          Profile?
-  carts            Cart[]
-  orders           Order[]
-  serviceOrders    ServiceOrder[]
+  Profile            Profile?
+  carts              Cart[]
+  orders             Order[]
+  serviceOrders      ServiceOrder[]
   deliveriesAssigned Delivery[]     @relation("DeliveryAssigned")
-  servicesAssigned ServiceOrder[]   @relation("ServiceAssigned")
+  servicesAssigned   ServiceOrder[] @relation("ServiceAssigned")
 }
-model Profile{
-  id String         @id @default(cuid())
-  image String?
-  User User  @relation(fields:[userId],references: [id], onDelete: Cascade)
-  userId String @unique
-  dob DateTime?
-  gender String?
+
+model Profile {
+  id          String    @id @default(cuid())
+  image       String?
+  User        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String    @unique
+  dob         DateTime?
+  gender      String?
   designation String?
-  mobile String?
-  address String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  mobile      String?
+  address     String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model Category {
@@ -130,11 +128,12 @@ model Product {
 
 model Cart {
   id        String     @id @default(cuid())
-  userId    String     @unique
-  user      User       @relation(fields: [userId], references: [id])
-  items     CartItem[]
+  guestId   String?    @unique
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
+  userId    String?    @unique
+  user      User?      @relation(fields: [userId], references: [id])
+  items     CartItem[]
 }
 
 model CartItem {
@@ -185,17 +184,17 @@ model OrderItem {
 }
 
 model Payment {
-  id             String        @id @default(cuid())
-  amount         Decimal       @db.Decimal(10, 2)
-  provider       String
-  status         PaymentStatus
-  transactionId  String?
-  
+  id            String        @id @default(cuid())
+  amount        Decimal       @db.Decimal(10, 2)
+  provider      String
+  status        PaymentStatus
+  transactionId String?
+
   // --- CHANGE: A payment can be for an Order OR a ServiceOrder ---
-  orderId        String?       @unique 
-  order          Order?        @relation(fields: [orderId], references: [id])
-  
-  serviceOrderId String?       @unique 
+  orderId String? @unique
+  order   Order?  @relation(fields: [orderId], references: [id])
+
+  serviceOrderId String?       @unique
   serviceOrder   ServiceOrder? @relation(fields: [serviceOrderId], references: [id])
 }
 
@@ -206,39 +205,39 @@ model ServiceOrder {
   details         Json?
   fileUrl         String?
   status          ServiceStatus @default(SUBMITTED)
-  price           Decimal       @db.Decimal(10, 2) @default(0)
+  price           Decimal       @default(0) @db.Decimal(10, 2)
   assignedStaffId String?
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
 
-  user          User     @relation(fields: [userId], references: [id])
-  assignedStaff User?    @relation("ServiceAssigned", fields: [assignedStaffId], references: [id])
+  user          User      @relation(fields: [userId], references: [id])
+  assignedStaff User?     @relation("ServiceAssigned", fields: [assignedStaffId], references: [id])
   delivery      Delivery?
   payment       Payment? // --- CHANGE: Added relation to Payment
 }
 
 model Delivery {
-  id              String        @id @default(cuid())
-  trackingCode    String        @unique
+  id              String         @id @default(cuid())
+  trackingCode    String         @unique
   status          DeliveryStatus @default(PENDING)
   assignedStaffId String?
-  updatedAt       DateTime      @updatedAt
-  createdAt       DateTime      @default(now())
-  
+  updatedAt       DateTime       @updatedAt
+  createdAt       DateTime       @default(now())
+
   // --- CHANGE: Enforced uniqueness for relations ---
-  orderId         String?       @unique 
-  serviceOrderId  String?       @unique 
-  
+  orderId        String? @unique
+  serviceOrderId String? @unique
+
   order        Order?        @relation(fields: [orderId], references: [id])
   serviceOrder ServiceOrder? @relation(fields: [serviceOrderId], references: [id])
   assignedTo   User?         @relation("DeliveryAssigned", fields: [assignedStaffId], references: [id])
 }
 
-model Session{
-  id String @id @default(uuid())
-  sid String @unique
-  data String
+model Session {
+  id        String   @id @default(uuid())
+  sid       String   @unique
+  data      String
   expiresAt DateTime
-  createAt DateTime @default(now())
-  updateAt DateTime @updatedAt
+  createAt  DateTime @default(now())
+  updateAt  DateTime @updatedAt
 }
