@@ -1,0 +1,153 @@
+{
+	"info": {
+		"_postman_id": "fee9cfcd-e9d1-4842-b1d2-ff72c998cc95",
+		"name": "Cart Management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39894081"
+	},
+	"item": [
+		{
+			"name": "Get cart Items",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWY0Y3k3M24wMDAwZHA2MGtkYmc4emR5IiwiaWF0IjoxNzU2OTc5MDA2LCJleHAiOjE3NTY5NzkzMDZ9.QQm-Nh_EdVmrrMCT0kVcNDLcYUGQaX-iKl3d2NzOvL4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/api/v1/cart",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"cart"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Items to Cart",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWY0Y3k3M24wMDAwZHA2MGtkYmc4emR5IiwiaWF0IjoxNzU2OTc5MDA2LCJleHAiOjE3NTY5NzkzMDZ9.QQm-Nh_EdVmrrMCT0kVcNDLcYUGQaX-iKl3d2NzOvL4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"productId\":\"cmf6nfr2d0008dpd049qu3i3v\",\r\n    \"quantity\":1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/v1/cart/items",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"cart",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update cart Items",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWY0Y3k3M24wMDAwZHA2MGtkYmc4emR5IiwiaWF0IjoxNzU2OTc5MDA2LCJleHAiOjE3NTY5NzkzMDZ9.QQm-Nh_EdVmrrMCT0kVcNDLcYUGQaX-iKl3d2NzOvL4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"quantity\":11\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/v1/cart/items/cmf6nfr2d0008dpd049qu3i3v",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"cart",
+						"items",
+						"cmf6nfr2d0008dpd049qu3i3v"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove Items From Cart",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWY0Y3k3M24wMDAwZHA2MGtkYmc4emR5IiwiaWF0IjoxNzU2OTc5MDA2LCJleHAiOjE3NTY5NzkzMDZ9.QQm-Nh_EdVmrrMCT0kVcNDLcYUGQaX-iKl3d2NzOvL4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"quantity\":11\r\n}"
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/v1/cart/items/cmf6nfr2d0008dpd049qu3i3v",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"cart",
+						"items",
+						"cmf6nfr2d0008dpd049qu3i3v"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
