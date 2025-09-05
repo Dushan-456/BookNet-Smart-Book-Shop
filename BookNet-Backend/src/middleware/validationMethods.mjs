@@ -119,6 +119,37 @@ export const productFieldsValidator = () => [
  
 ];
 
+//shipping details Fields validate------------------------------------------------------------------------------------------------------------------------
+
+export const shippingDetailsFieldsValidator = () => [
+ 
+   body("shippingName")
+      .trim()
+      .escape()
+      .notEmpty().withMessage("name is required"),
+   body("shippingPhone")
+      .trim()
+      .escape()
+      .notEmpty().withMessage("Mobile Number is required"),
+   body("shippingLine1")
+      .trim()
+      .escape()
+      .notEmpty().withMessage("Address is required"),
+   body("shippingLine2")
+      .trim()
+      .escape(),
+   body("shippingCity")
+      .trim()
+      .escape()
+      .notEmpty().withMessage("City is required"),
+   body("shippingPostal")
+      .trim()
+      .escape()
+      .notEmpty().withMessage("PostalCode is required"),
+   
+
+];
+
 
 //common body Fields validate------------------------------------------------------------------------------------------------------------------------
 export const commonValidate = (...keys) => {
