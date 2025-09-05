@@ -3,10 +3,10 @@ import { matchedData, validationResult } from "express-validator";
 import DB from "../db/db.mjs";
 import bcrypt from "bcrypt";
 import { generateToken } from "../Utils/jwt.mjs";
+import { mergeCarts } from "../Utils/cartUtils.mjs";
 
 class UserController {
-
-/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+   /**------------------------------------------------------------------------------------------------------------------------------------------------------------
  * @description    New User Registration
  * @route          POST /api/v1/users/register
  * @access         Public
@@ -24,6 +24,9 @@ class UserController {
 
       const { firstName, lastName, username, email, password } =
          matchedData(req);
+
+      const guestCartId = req.cookies.cartToken;
+
       try {
          // Hash the password
          const salt = await bcrypt.genSalt(10);
@@ -40,6 +43,10 @@ class UserController {
             },
          });
 
+         if (guestCartId) {
+            await mergeCarts(newUser.id, guestCartId);
+            res.clearCookie("cartToken"); // Clean up the guest cookie after merge
+         }
          // Respond with the created user (omitting the password)
          const { passwordHash: _, ...userWithoutPassword } = newUser;
          const token = generateToken({ userId: newUser.id });
@@ -63,7 +70,7 @@ class UserController {
       }
    };
 
-/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+   /**------------------------------------------------------------------------------------------------------------------------------------------------------------
  * @description    User Login
  * @route          POST /api/v1/users/login
  * @access         Public
@@ -80,6 +87,7 @@ class UserController {
       }
 
       const { emailOrUsername, password } = matchedData(req);
+      const guestCartId = req.cookies.cartToken; // Get the guest token from the cookie
 
       try {
          // Find user by email OR username
@@ -101,29 +109,34 @@ class UserController {
          if (!isMatch) {
             return res.status(401).json({ message: "Invalid credentials" });
          }
+         if (user && isMatch) {
+            // --- MERGE Cart ---
+            if (guestCartId) {
+               await mergeCarts(user.id, guestCartId);
+               res.clearCookie("cartToken"); // Clean up the guest cookie after merge
+            }
 
-         //  Generate token and respond
-         const token = generateToken({ userId: user.id });
-         res.status(200).json({
-            id: user.id,
-            username: user.username,
-            email: user.email,
-            token,
-         });
+            //  Generate token and respond
+            const token = generateToken({ userId: user.id });
+            res.status(200).json({
+               id: user.id,
+               username: user.username,
+               email: user.email,
+               token,
+            });
+         }
       } catch (error) {
          console.error(error);
          res.status(500).json({ message: "Server error during login" });
       }
    };
 
-/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+   /**------------------------------------------------------------------------------------------------------------------------------------------------------------
  * @description    Get All Users
  * @route          GET /api/v1/users/
  * @access         Admin
  ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
    showAllUsers = async (req, res) => {
-  
-
       try {
          const users = await DB.user.findMany({
             select: {
@@ -157,7 +170,7 @@ class UserController {
       }
    };
 
-/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+   /**------------------------------------------------------------------------------------------------------------------------------------------------------------
  * @description    DeleteUser by ID
  * @route          DELETE /api/v1/users/:id
  * @access         Admin
@@ -191,7 +204,7 @@ class UserController {
       }
    };
 
-/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+   /**------------------------------------------------------------------------------------------------------------------------------------------------------------
  * @description    Get User Profile Details by ID
  * @route          GET /api/v1/users/:id
  * @access         Authenticated User
