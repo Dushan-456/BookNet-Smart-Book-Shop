@@ -14,7 +14,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWY0Y3k3M24wMDAwZHA2MGtkYmc4emR5IiwiaWF0IjoxNzU2OTI5ODg0LCJleHAiOjE3NTY5MzAxODR9.zwzn3wPAWvpAj3VIpqaWDa2WtCY7DChWB52nWAHuioE",
+							"value": "",
 							"type": "string"
 						}
 					]
@@ -42,7 +42,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"firstName\": \"admin\",\r\n    \"lastName\": \"admin\",\r\n    \"username\": \"admin\",\r\n    \"email\": \"admin@gmail.com\",\r\n    \"password\": \"Dushan@2025\",\r\n    \"confirmPassword\": \"Dushan@2025\"\r\n}",
+					"raw": "{\r\n    \"firstName\": \"Dushan\",\r\n    \"lastName\": \"Dushan\",\r\n    \"username\": \"Dushan\",\r\n    \"email\": \"Dushan@gmail.com\",\r\n    \"password\": \"Dushan@2025\",\r\n    \"confirmPassword\": \"Dushan@2025\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -71,7 +71,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\r\n    \"emailOrUsername\": \"admin@gmail.com\",\r\n    \"password\": \"Dushan@2025\"\r\n}",
+					"raw": "{\r\n\r\n    \"emailOrUsername\": \"admin\",\r\n    \"password\": \"password123\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -126,6 +126,16 @@
 		{
 			"name": "Profile Update or Create",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWY2bTkwZHowMDAxZHA3bzhzYTdjbWY5IiwiaWF0IjoxNzU3MDYzNTQ5LCJleHAiOjE3NTcwNjM4NDl9.-LYDSviyvQnyd0cVEGACk0QiIn-XGC_HZl2gBF-eSrM",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -138,7 +148,7 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseURL}}/api/v1/users/cmf460jbk0000dpzgqce4yg7t",
+					"raw": "{{baseURL}}/api/v1/users/cmf6m84c50000dp7ojqxr81fw",
 					"host": [
 						"{{baseURL}}"
 					],
@@ -146,7 +156,7 @@
 						"api",
 						"v1",
 						"users",
-						"cmf460jbk0000dpzgqce4yg7t"
+						"cmf6m84c50000dp7ojqxr81fw"
 					]
 				}
 			},
@@ -163,7 +173,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWY0Y3k3M24wMDAwZHA2MGtkYmc4emR5IiwiaWF0IjoxNzU2OTI5ODg0LCJleHAiOjE3NTY5MzAxODR9.zwzn3wPAWvpAj3VIpqaWDa2WtCY7DChWB52nWAHuioE",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWY2bmZwN2gwMDAwZHBkMDdtaTRjZ3psIiwiaWF0IjoxNzU3MDY1NTkzLCJleHAiOjE3NTcwNjU4OTN9.octTrd_0T9cW_On4IeGRqlcDTNa6RU1WKUyJUQvdj84",
 							"type": "string"
 						}
 					]
@@ -175,7 +185,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{baseURL}}/api/v1/users/cmf460jbk0000dpzgqce4yg7t",
+					"raw": "{{baseURL}}/api/v1/users/cmf6nfpt50002dpd097g16svz",
 					"host": [
 						"{{baseURL}}"
 					],
@@ -183,7 +193,31 @@
 						"api",
 						"v1",
 						"users",
-						"cmf460jbk0000dpzgqce4yg7t"
+						"cmf6nfpt50002dpd097g16svz"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n    \"emailOrUsername\": \"admin\",\r\n    \"password\": \"password123\"\r\n}"
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/v1/users/logout",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"logout"
 					]
 				}
 			},
