@@ -11,13 +11,13 @@ export const loginProtect = async (req, res, next) => {
       const token =
          authHeader && authHeader.startsWith("Bearer ")
             ? authHeader.split(" ")[1]
-            : req.cookies?.token;
+            : req.cookies?.jwt;
 
       // If no token found
       if (!token) {
          return res.status(401).json({
             msg: "error",
-            error: "Sorry Access Denied. No token provided.",
+            error: "Sorry Access Denied. No token provided or No Cookies found.",
             data: null,
          });
       }
@@ -69,7 +69,7 @@ export const attachUserIfAuthenticated = async (req, res, next) => {
          const token =
             authHeader && authHeader.startsWith("Bearer ")
                ? authHeader.split(" ")[1]
-               : req.cookies?.token;
+               : req.cookies?.jwt;
                
          const decoded = jwt.verify(token, process.env.JWT_SECRET);
          req.authUser = await DB.user.findUnique({

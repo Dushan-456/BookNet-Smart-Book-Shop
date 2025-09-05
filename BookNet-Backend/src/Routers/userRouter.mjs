@@ -14,6 +14,7 @@ const userRouter = Router();
 
 userRouter.post("/register",RegisterValidator(), userControllers.RegisterNewUser);
 userRouter.post("/login", loginValidator(), userControllers.loginUser);
+userRouter.post("/logout", userControllers.logoutUser);
 
 
 // --- PROTECTED ROUTES (Require Authentication) ---
