@@ -3,6 +3,7 @@ import userRouter from "./userRouter.mjs";
 import categoryRouter from "./categoryRouter.mjs";
 import productRouter from "./productRouter.mjs";
 import cartRouter from "./cartRouter.mjs";
+import orderRoutes from "./orderRoutes.mjs";
 
 
 const rootRouter = Router();
@@ -16,6 +17,8 @@ rootRouter.use("/categories",categoryRouter)
 rootRouter.use("/products",productRouter)
 
 rootRouter.use("/cart",cartRouter)
+
+rootRouter.use("/orders",orderRoutes)
 
 
 
