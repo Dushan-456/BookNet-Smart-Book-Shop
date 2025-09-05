@@ -3,8 +3,54 @@ import { matchedData, validationResult } from "express-validator";
 import DB from "../db/db.mjs";
 
 class CategoryController {
-   //Create New Category------------------------------------------------------------------------------------------------------------------------------
 
+/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+ * @description    Get All Categories
+ * @route          GET /api/v1/categories/
+ * @access         Public
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+   getAllCategories = async (req, res) => {
+      try {
+         const categories = await DB.category.findMany();
+
+         // Helper function to build the tree structure
+         const buildCategoryTree = (list) => {
+            const map = {};
+            const roots = [];
+
+            list.forEach((cat, i) => {
+               map[cat.id] = i; // Use map to look up the array index of each category
+               list[i].children = []; // Initialize children array
+            });
+
+            list.forEach((cat) => {
+               if (cat.parentId !== null) {
+                  // If it's a child, push it to its parent's children array
+                  if (list[map[cat.parentId]]) {
+                     list[map[cat.parentId]].children.push(cat);
+                  }
+               } else {
+                  // If it's a root node (no parent), push it to the roots array
+                  roots.push(cat);
+               }
+            });
+            return roots;
+         };
+
+         const categoryTree = buildCategoryTree(categories);
+         res.status(200).json(categoryTree);
+      } catch (error) {
+         console.error("Error fetching categories:", error);
+         res.status(500).json({ message: "Internal Server error" });
+      }
+   };
+
+
+/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+ * @description    Create New Category
+ * @route          POST /api/v1/categories/
+ * @access         Admin
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
    createCategory = async (req, res) => {
       const error = validationResult(req);
       const creatingError = errorCreate(error.array());
@@ -49,46 +95,12 @@ class CategoryController {
       }
    };
 
-   //Get All Category------------------------------------------------------------------------------------------------------------------------------
 
-   getAllCategories = async (req, res) => {
-      try {
-         const categories = await DB.category.findMany();
-
-         // Helper function to build the tree structure
-         const buildCategoryTree = (list) => {
-            const map = {};
-            const roots = [];
-
-            list.forEach((cat, i) => {
-               map[cat.id] = i; // Use map to look up the array index of each category
-               list[i].children = []; // Initialize children array
-            });
-
-            list.forEach((cat) => {
-               if (cat.parentId !== null) {
-                  // If it's a child, push it to its parent's children array
-                  if (list[map[cat.parentId]]) {
-                     list[map[cat.parentId]].children.push(cat);
-                  }
-               } else {
-                  // If it's a root node (no parent), push it to the roots array
-                  roots.push(cat);
-               }
-            });
-            return roots;
-         };
-
-         const categoryTree = buildCategoryTree(categories);
-         res.status(200).json(categoryTree);
-      } catch (error) {
-         console.error("Error fetching categories:", error);
-         res.status(500).json({ message: "Internal Server error" });
-      }
-   };
-
-   //Update Category------------------------------------------------------------------------------------------------------------------------------
-
+/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+ * @description    Update Category
+ * @route          PUT /api/v1/categories/:id
+ * @access         Admin
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
    updateCategory = async (req, res) => {
       const { id } = req.params;
 
@@ -139,8 +151,12 @@ class CategoryController {
       }
    };
 
-   //Delete Category------------------------------------------------------------------------------------------------------------------------------
 
+/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+ * @description    Delete Category
+ * @route          DELETE /api/v1/categories/:id
+ * @access         Admin
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
    deleteCategory = async (req, res) => {
       const { id } = req.params;
 
