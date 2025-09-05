@@ -3,16 +3,27 @@ import { matchedData, validationResult } from "express-validator";
 import DB from "../db/db.mjs";
 
 class ProfileControllers {
-/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+   /**------------------------------------------------------------------------------------------------------------------------------------------------------------
  * @description    Create or Update UserProfile
  * @route          POST /api/v1/users/:id
  * @access         Authenticated User
  ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
    createOrUpdateUserProfile = async (req, res) => {
-      const { id } = req.params;
+      const id = req.params.id;
+      const loggedInUser = req.authUser; // From 'protect' middleware
 
       if (!id) {
          return res.status(400).json({ message: "User ID is required." });
+      }
+      if (
+         loggedInUser.id !== id &&
+         loggedInUser.role !== "ADMIN"
+      ) {
+         return res
+            .status(403)
+            .json({
+               message: "Access denied. You can only update your own profile.",
+            });
       }
 
       const error = validationResult(req);
@@ -25,15 +36,8 @@ class ProfileControllers {
          });
       }
 
-      const {
-         image,
-         dob,
-         gender,
-         designation,
-         mobile,
-         address,
-      } = matchedData(req);
-
+      const { image, dob, gender, designation, mobile, address } =
+         matchedData(req);
 
       try {
          const user = await DB.user.findUnique({
