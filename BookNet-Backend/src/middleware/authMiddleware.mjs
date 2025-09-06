@@ -17,7 +17,7 @@ export const loginProtect = async (req, res, next) => {
       if (!token) {
          return res.status(401).json({
             msg: "error",
-            error: "Sorry Access Denied. No token provided or No Cookies found.",
+            error: "Sorry Access Denied.Please Logged In (No token provided or No Cookies found)",
             data: null,
          });
       }
