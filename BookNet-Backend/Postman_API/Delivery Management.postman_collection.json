@@ -1,0 +1,129 @@
+{
+	"info": {
+		"_postman_id": "684b96f0-71b0-4f6d-a499-bc34203676fa",
+		"name": "Delivery Management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39894081"
+	},
+	"item": [
+		{
+			"name": "Get All Deliveries",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/api/v1/deliveries",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"deliveries"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delivery Staff Assign",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"assignedStaffId\":\"cmf6nfpt50002dpd097g16svz\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/v1/deliveries/cmf8c1fny0004dpb45o4xmbrn/assign",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"deliveries",
+						"cmf8c1fny0004dpb45o4xmbrn",
+						"assign"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Assigned Deliveries to Rider",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/api/v1/deliveries/my-tasks",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"deliveries",
+						"my-tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Delivery by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/api/v1/deliveries/cmf8c1fny0004dpb45o4xmbrn",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"deliveries",
+						"cmf8c1fny0004dpb45o4xmbrn"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delivery Status Update",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\":\"DELIVERED\"  //  PENDING  ASSIGNED  IN_TRANSIT  DELIVERED  RETURNED  CANCELLED\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/v1/deliveries/cmf8c1fny0004dpb45o4xmbrn/status",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"deliveries",
+						"cmf8c1fny0004dpb45o4xmbrn",
+						"status"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
