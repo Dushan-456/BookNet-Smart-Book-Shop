@@ -1,0 +1,146 @@
+{
+	"info": {
+		"_postman_id": "84e81f65-c2fa-409c-aa74-366e2448ffcf",
+		"name": "Order Management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39894081"
+	},
+	"item": [
+		{
+			"name": "Place New Order",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"shippingName\": \"Navodya Dushan\",\r\n        \"shippingPhone\": \"0719675668\",\r\n        \"shippingLine1\": \"Address\",\r\n        \"shippingCity\": \"Matara\",\r\n        \"shippingPostal\": \"82548\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/v1/orders",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "My All Orders or All Orders by User ID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n    \"emailOrUsername\": \"admin\",\r\n    \"password\": \"password123\"\r\n}"
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/v1/orders/my-orders/cmf6pha9k0001dpzgltsep3h9",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"orders",
+						"my-orders",
+						"cmf6pha9k0001dpzgltsep3h9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All Orders",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/api/v1/orders/",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"orders",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a single order by order ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/api/v1/orders/cmf8c1dko0001dpb4u9fmabmk",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"orders",
+						"cmf8c1dko0001dpb4u9fmabmk"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update an order's status",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\":\"PROCESSING\"\r\n\r\n    // 'PENDING', 'PROCESSING', 'DISPATCHED', 'DELIVERED', 'CANCELLED'\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/v1/orders/cmf7xvjm40005dp5oytuekytg/status",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"orders",
+						"cmf7xvjm40005dp5oytuekytg",
+						"status"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
