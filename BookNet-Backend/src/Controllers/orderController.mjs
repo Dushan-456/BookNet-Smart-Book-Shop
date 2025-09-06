@@ -107,32 +107,28 @@ class OrderControllers {
 
 /**------------------------------------------------------------------------------------------------------------------------------------------------------------
  * @description    Get all orders for a specific user
- * @route          GET /api/orders/my-orders/:userId
+ * @route          GET /api/v1/orders/my-orders/:userId
  * @access         Authenticated User
  ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-  
-   getOrdersByUserId = async (req, res) => {
+   getAllOrdersByUserId = async (req, res) => {
   const requestedUserId = req.params.userId;
   const loggedInUser = req.authUser; // From 'protect' middleware
 
   try {
     // --- AUTHORIZATION CHECK ---
-    // A user can only access their own orders, unless they are an admin.
     if (loggedInUser.id !== requestedUserId && loggedInUser.role !== 'ADMIN') {
       return res.status(403).json({ message: 'Access denied. You can only view your own orders.' });
     }
 
-    // --- FETCH ORDERS ---
     const orders = await DB.order.findMany({
       where: {
         userId: requestedUserId,
       },
-      // Include the details of the items in each order
       include: {
         items: {
           include: {
             product: {
-              select: { // Select only what you need to show in the order history
+              select: { 
                 id: true,
                 title: true,
               },
@@ -154,6 +150,107 @@ class OrderControllers {
   } catch (error) {
     console.error('Error fetching user orders:', error);
     res.status(500).json({ message: 'Server error while fetching orders.' });
+  }
+};
+
+/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+ * @description    Get all orders (for admins)
+ * @route          GET /api/v1/orders/
+ * @access         Admin
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+  getAllOrders = async (req, res) => {
+  try {
+    const orders = await DB.order.findMany({
+      include: {
+        user: { // Include user details for context
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+    res.status(200).json(orders);
+  } catch (error) {
+    console.error('Error fetching all orders:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+
+
+/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+ * @description    Get a single order by order ID (for admins)
+ * @route          GET /api/v1/orders/:id
+ * @access         Admin
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+ getOrderByOrderId = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const order = await DB.order.findUnique({
+      where: { id },
+      include: {
+        user: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+          },
+        },
+        items: {
+          include: {
+            product: true, // Include full product details for each item
+          },
+        },
+      },
+    });
+
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
+    res.status(200).json(order);
+  } catch (error) {
+    console.error('Error fetching order by ID:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+
+/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+ * @description    Update an order's status (for admins)
+ * @route          PUT /api/v1/orders/:id/status
+ * @access         Admin
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+updateOrderStatus = async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body; // e.g., "PROCESSING", "DISPATCHED", "DELIVERED"
+
+  // Optional: Validate that the status is a valid OrderStatus enum value
+  if (!['PENDING', 'PROCESSING', 'DISPATCHED', 'DELIVERED', 'CANCELLED'].includes(status)) {
+    return res.status(400).json({ message: 'Invalid order status' });
+  }
+
+  try {
+    const updatedOrder = await DB.order.update({
+      where: { id },
+      data: {
+        status: status,
+      },
+    });
+    res.status(200).json({message:"Order status Updated",updatedOrder});
+  } catch (error) {
+    if (error.code === 'P2025') {
+      return res.status(404).json({ message: `Order with ID ${id} not found.` });
+    }
+    console.error('Error updating order status:', error);
+    res.status(500).json({ message: 'Server error' });
   }
 };
 
