@@ -20,12 +20,13 @@ userRouter.post("/logout", userControllers.logoutUser);
 // --- PROTECTED ROUTES (Require Authentication) ---
 
 userRouter.post("/:id",ProfileFieldsValidator(),loginProtect,profileControllers.createOrUpdateUserProfile);
-userRouter.get("/:id", loginProtect, userControllers.getUserAndProfileById);
+userRouter.get("/my-profile", loginProtect, userControllers.myProfile);
 
 
 // --- ADMIN-ONLY ROUTES (Require Authentication & Authorization) ---
 
 userRouter.get("/",loginProtect,protectedToAdmin, userControllers.showAllUsers);
 userRouter.delete("/:id", loginProtect,protectedToAdmin, userControllers.deleteUserById);
+userRouter.get("/:id", loginProtect,protectedToAdmin, userControllers.getUserAndProfileById);
 
 export default userRouter;
