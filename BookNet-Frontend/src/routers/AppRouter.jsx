@@ -6,9 +6,9 @@ import MainLayout from "../Layouts/MainLayout";
 import Home from "../pages/Home";
 import About from "../pages/About";
 import Error404Page from "../Pages/Error404Page";
-import ProtectedRouter from "./ProtectedRouter"; 
 import LoginPage from "../Pages/LoginPage"; 
 import UserProfile from "../Pages/UserProfile"; 
+import ProtectedRouter from "./ProtectedRouter";
 
 const router = createBrowserRouter([
   {
