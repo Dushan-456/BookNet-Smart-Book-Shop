@@ -8,38 +8,56 @@ class ServiceControllers {
  * @route          POST /api/v1/services/user
  * @access         Authenticated User
  ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-   createAuthenticatedServiceOrder = async (req, res) => {
-      const userId = req.authUser.id; // From 'protect' middleware
-      const { type, details } = req.body;
+createAuthenticatedServiceOrder = async (req, res) => {
+    const userId = req.authUser.id; 
+    const { type, details } = req.body;
 
-      if (!req.file) {
-         return res
+    if (!req.file) {
+        return res
             .status(400)
             .json({ message: "A file is required for this service." });
-      }
+    }
 
-      try {
-         const fileUrl = `${req.protocol}://${req.get(
+    try {
+        const fileUrl = `${req.protocol}://${req.get(
             "host"
-         )}/${req.file.path.replace(/\\/g, "/")}`;
+        )}/${req.file.path.replace(/\\/g, "/")}`;
 
-         const newServiceOrder = await DB.serviceOrder.create({
-            data: {
-               userId: userId,
-               type,
-               details,
-               fileUrl: fileUrl,
-            },
-         });
-         res.status(201).json({
+        // --- Use a transaction to create both records safely ---
+        const newServiceOrder = await DB.$transaction(async (tx) => {
+            // 1. Create the ServiceOrder first to get its ID
+            const serviceOrder = await tx.serviceOrder.create({
+                data: {
+                    userId: userId,
+                    type,
+                    details,
+                    fileUrl: fileUrl,
+                },
+            });
+
+            // 2. Create the corresponding Delivery record using the new ID
+            await tx.delivery.create({
+                data: {
+                    serviceOrderId: serviceOrder.id, 
+                    status: 'PENDING',
+                    trackingCode: `BNS-${Date.now()}` 
+                }
+            });
+
+            // 3. Return the serviceOrder so it can be sent in the response
+            return serviceOrder;
+        });
+
+        res.status(201).json({
             message: "Service order submitted successfully!",
             order: newServiceOrder,
-         });
-      } catch (error) {
-         console.error("Error creating authenticated service order:", error);
-         res.status(500).json({ message: "Server error." });
-      }
-   };
+        });
+
+    } catch (error) {
+        console.error("Error creating authenticated service order:", error);
+        res.status(500).json({ message: "Server error." });
+    }
+};
 
 /**------------------------------------------------------------------------------------------------------------------------------------------------------------
  * @description    Create a new service order as a GUEST (in-shop)
