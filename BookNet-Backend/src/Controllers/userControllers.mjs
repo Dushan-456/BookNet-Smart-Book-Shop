@@ -217,22 +217,58 @@ class UserController {
       }
    };
 
-   /**------------------------------------------------------------------------------------------------------------------------------------------------------------
+/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+ * @description    Get User Profile Details by ID
+ * @route          GET /api/v1/users/my-profile
+ * @access         Authenticated User
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+   myProfile = async (req, res) => {
+      // const id = req.params.id;
+      const userId = req.authUser.id; // From 'protect' middleware
+      // if (!id) {
+      //    return res.status(400).json({ message: "User ID is required." });
+      // }
+      // if (loggedInUser.id !== id && loggedInUser.role !== "ADMIN") {
+      //    return res.status(403).json({
+      //       message: "Access denied. You can only view your own profile.",
+      //    });
+      // }
+      try {
+         const user = await DB.user.findUnique({
+            where: {
+               id:userId,
+            },
+            select: {
+               id: true,
+               username: true,
+               email: true,
+               Profile: true,
+            },
+         });
+
+         if (!user) {
+            return res
+               .status(404)
+               .json({ message: `User with ID ${id} not found.` });
+         }
+
+         res.status(200).json({
+            message: "User and profile retrieved successfully!",
+            data: user,
+         });
+      } catch (error) {
+         console.error("Error fetching user and profile:", error);
+         res.status(500).json({ message: "An unexpected error occurred." });
+      }
+   };
+/**------------------------------------------------------------------------------------------------------------------------------------------------------------
  * @description    Get User Profile Details by ID
  * @route          GET /api/v1/users/:id
  * @access         Authenticated User
  ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
    getUserAndProfileById = async (req, res) => {
       const id = req.params.id;
-      const loggedInUser = req.authUser; // From 'protect' middleware
-      if (!id) {
-         return res.status(400).json({ message: "User ID is required." });
-      }
-      if (loggedInUser.id !== id && loggedInUser.role !== "ADMIN") {
-         return res.status(403).json({
-            message: "Access denied. You can only view your own profile.",
-         });
-      }
+
       try {
          const user = await DB.user.findUnique({
             where: {
