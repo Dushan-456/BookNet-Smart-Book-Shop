@@ -41,6 +41,7 @@ enum ServiceType {
   PRINTING
   TYPING
   EDITING
+  PHOTOCOPY
 }
 
 enum ServiceStatus {
@@ -200,7 +201,9 @@ model Payment {
 
 model ServiceOrder {
   id              String        @id @default(cuid())
-  userId          String
+  userId          String?       
+  guestName       String?       
+  guestContact    String?       
   type            ServiceType
   details         Json?
   fileUrl         String?
@@ -209,11 +212,10 @@ model ServiceOrder {
   assignedStaffId String?
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
-
-  user          User      @relation(fields: [userId], references: [id])
-  assignedStaff User?     @relation("ServiceAssigned", fields: [assignedStaffId], references: [id])
+  user          User?    @relation(fields: [userId], references: [id])
+  assignedStaff User?    @relation("ServiceAssigned", fields: [assignedStaffId], references: [id])
   delivery      Delivery?
-  payment       Payment? // --- CHANGE: Added relation to Payment
+  payment       Payment?
 }
 
 model Delivery {
