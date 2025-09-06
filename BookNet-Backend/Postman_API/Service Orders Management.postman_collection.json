@@ -1,0 +1,154 @@
+{
+	"info": {
+		"_postman_id": "b634e44c-5c72-4270-b888-41b9466759f5",
+		"name": "Service Orders Management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39894081"
+	},
+	"item": [
+		{
+			"name": "Place Service Order - Authenticated User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "serviceFile",
+							"type": "file",
+							"src": "/C:/Users/DUSHAN/Downloads/213_2022_Article_6125.pdf"
+						},
+						{
+							"key": "details",
+							"value": "Print this",
+							"type": "text"
+						},
+						{
+							"key": "type",
+							"value": "TYPING",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/v1/services/user",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"services",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Place Service Order - Guest User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "serviceFile",
+							"type": "file",
+							"src": "/C:/Users/DUSHAN/Downloads/Gemini_Generated_Image_232ya4232ya4232y (1).png"
+						},
+						{
+							"key": "details",
+							"value": "Print this",
+							"type": "text"
+						},
+						{
+							"key": "type",
+							"value": "PRINTING",
+							"type": "text"
+						},
+						{
+							"key": "guestContact",
+							"value": "0719675669",
+							"type": "text"
+						},
+						{
+							"key": "guestName",
+							"value": "kasun Kalhara",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/v1/services/guest",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"services",
+						"guest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All Service Orders",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/api/v1/services?type=PRINTING",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"services"
+					],
+					"query": [
+						{
+							"key": "type",
+							"value": "PRINTING"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update a service order's status or assign staff",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\":\"IN_PROGRESS\"\r\n    // \"assignedStaffId\":\"\" \r\n    // ServiceStatus ==>  SUBMITTED  IN_PROGRESS  READY  DISPATCHED  DELIVERED  CANCELLED\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/v1/services/cmf84x00f0000dpi4ynxpmaem",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"services",
+						"cmf84x00f0000dpi4ynxpmaem"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -14,7 +14,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWY0Y3k3M24wMDAwZHA2MGtkYmc4emR5IiwiaWF0IjoxNzU2OTc5MDA2LCJleHAiOjE3NTY5NzkzMDZ9.QQm-Nh_EdVmrrMCT0kVcNDLcYUGQaX-iKl3d2NzOvL4",
+							"value": "",
 							"type": "string"
 						}
 					]
@@ -43,7 +43,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWY0Y3k3M24wMDAwZHA2MGtkYmc4emR5IiwiaWF0IjoxNzU2OTc5MDA2LCJleHAiOjE3NTY5NzkzMDZ9.QQm-Nh_EdVmrrMCT0kVcNDLcYUGQaX-iKl3d2NzOvL4",
+							"value": "",
 							"type": "string"
 						}
 					]
@@ -52,7 +52,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"productId\":\"cmf6nfr2d0008dpd049qu3i3v\",\r\n    \"quantity\":1\r\n}",
+					"raw": "{\r\n    \"productId\":\"cmf6nfr2d0007dpd09v672bf2\",\r\n    \"quantity\":5\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -122,7 +122,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWY0Y3k3M24wMDAwZHA2MGtkYmc4emR5IiwiaWF0IjoxNzU2OTc5MDA2LCJleHAiOjE3NTY5NzkzMDZ9.QQm-Nh_EdVmrrMCT0kVcNDLcYUGQaX-iKl3d2NzOvL4",
+							"value": "",
 							"type": "string"
 						}
 					]
@@ -134,7 +134,7 @@
 					"raw": "{\r\n    \"quantity\":11\r\n}"
 				},
 				"url": {
-					"raw": "{{baseURL}}/api/v1/cart/items/cmf6nfr2d0008dpd049qu3i3v",
+					"raw": "{{baseURL}}/api/v1/cart/items/cmf6nfr2d0007dpd09v672bf2",
 					"host": [
 						"{{baseURL}}"
 					],
@@ -143,7 +143,7 @@
 						"v1",
 						"cart",
 						"items",
-						"cmf6nfr2d0008dpd049qu3i3v"
+						"cmf6nfr2d0007dpd09v672bf2"
 					]
 				}
 			},
