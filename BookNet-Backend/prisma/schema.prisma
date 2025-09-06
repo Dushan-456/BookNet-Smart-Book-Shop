@@ -225,11 +225,8 @@ model Delivery {
   assignedStaffId String?
   updatedAt       DateTime       @updatedAt
   createdAt       DateTime       @default(now())
-
-  // --- CHANGE: Enforced uniqueness for relations ---
   orderId        String? @unique
   serviceOrderId String? @unique
-
   order        Order?        @relation(fields: [orderId], references: [id])
   serviceOrder ServiceOrder? @relation(fields: [serviceOrderId], references: [id])
   assignedTo   User?         @relation("DeliveryAssigned", fields: [assignedStaffId], references: [id])
