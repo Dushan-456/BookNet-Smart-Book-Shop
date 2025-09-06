@@ -1,5 +1,5 @@
 import errorimg from "../Assets/Images/404.webp";
-// import { CONTACT_ADMIN_EMAIL } from "../Utils/Values";
+import { CONTACT_ADMIN_EMAIL } from "../Utils/Values";
 import Button from "@mui/material/Button";
 import HomeIcon from "@mui/icons-material/Home";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
@@ -30,9 +30,9 @@ const Error404Page = () => {
          <br />
          <p>
             Please contact{" "}
-            {/* <a href={CONTACT_ADMIN_EMAIL} className="text-blue-500 font-bold">
+            <a href={CONTACT_ADMIN_EMAIL} className="text-blue-500 font-bold">
                System Administrator
-            </a>{" "} */}
+            </a>{" "}
             if you believe this is an error in website.{" "}
          </p>
          {/* <p>{errormsg.statusText}</p> */}
