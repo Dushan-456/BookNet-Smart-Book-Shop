@@ -60,6 +60,15 @@ export const protectedToAdmin = (req, res, next) => {
       res.status(403).json({ message: "Not authorized as an admin" });
    }
 };
+// Middleware to check if the user is an admin-------------------------------------------------------------
+
+export const protectedToDelivery = (req, res, next) => {
+   if (req.authUser && req.authUser.role === "DELIVERY") {
+      next();
+   } else {
+      res.status(403).json({ message: "Not authorized as an Delivery Rider" });
+   }
+};
 
 // This middleware ATTACHES the user if authenticated, but DOES NOT block guests-----------------------------------------------------------------
 
