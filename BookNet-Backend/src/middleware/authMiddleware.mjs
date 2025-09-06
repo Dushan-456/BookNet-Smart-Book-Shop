@@ -16,7 +16,7 @@ export const loginProtect = async (req, res, next) => {
       // If no token found
       if (!token) {
          return res.status(401).json({
-            msg: "error",
+            msg: "Authorization Error",
             error: "Sorry Access Denied.Please Logged In (No token provided or No Cookies found)",
             data: null,
          });
@@ -38,16 +38,18 @@ export const loginProtect = async (req, res, next) => {
       });
 
       if (!req.authUser) {
-         return res
-            .status(401)
-            .json({ message: "Not authorized, user not found" });
+         return res.status(401).json({
+            message: "Authorization Error",
+            error: "Not authorized, user not found",
+         });
       }
 
       next();
    } catch (err) {
-      return res
-         .status(401)
-         .json({ message: "Not authorized, token Invalid or Expied" });
+      return res.status(401).json({
+         message: "Authorization Error",
+         error: "Not authorized, token Invalid or Expied",
+      });
    }
 };
 
@@ -57,7 +59,10 @@ export const protectedToAdmin = (req, res, next) => {
    if (req.authUser && req.authUser.role === "ADMIN") {
       next();
    } else {
-      res.status(403).json({ message: "Not authorized as an admin" });
+      res.status(403).json({
+         message: "Authorization Error",
+         error: "Not authorized as an admin",
+      });
    }
 };
 // Middleware to check if the user is an admin-------------------------------------------------------------
@@ -66,7 +71,10 @@ export const protectedToDelivery = (req, res, next) => {
    if (req.authUser && req.authUser.role === "DELIVERY") {
       next();
    } else {
-      res.status(403).json({ message: "Not authorized as an Delivery Rider" });
+      res.status(403).json({
+         message: "Authorization Error",
+         error: "Not authorized as an Delivery Rider",
+      });
    }
 };
 
@@ -74,21 +82,21 @@ export const protectedToDelivery = (req, res, next) => {
 
 export const attachUserIfAuthenticated = async (req, res, next) => {
    const authHeader = req.headers.authorization;
-      try {
-         const token =
-            authHeader && authHeader.startsWith("Bearer ")
-               ? authHeader.split(" ")[1]
-               : req.cookies?.jwt;
-               
-         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-         req.authUser = await DB.user.findUnique({
-            where: { id: decoded.userId },
-            select: { id: true, email: true, username: true, role: true },
-         });
-      } catch (error) {
-         // Invalid token, just ignore and treat as guest
-         console.log("Invalid token found, proceeding as guest.");
-      }
-   
+   try {
+      const token =
+         authHeader && authHeader.startsWith("Bearer ")
+            ? authHeader.split(" ")[1]
+            : req.cookies?.jwt;
+
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      req.authUser = await DB.user.findUnique({
+         where: { id: decoded.userId },
+         select: { id: true, email: true, username: true, role: true },
+      });
+   } catch (error) {
+      // Invalid token, just ignore and treat as guest
+      console.log("Invalid token found, proceeding as guest.");
+   }
+
    next();
 };
