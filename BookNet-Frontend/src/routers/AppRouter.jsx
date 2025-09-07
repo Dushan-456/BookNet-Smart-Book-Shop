@@ -25,7 +25,7 @@ const router = createBrowserRouter([
 
          // --- Protected Routes (User must be logged in) ---
          {
-            element: <ProtectedRouter ProtectedRole="user" />,
+            element: <ProtectedRouter ProtectedRole="CUSTOMER" />,
             children: [
                {
                   path: "profile",

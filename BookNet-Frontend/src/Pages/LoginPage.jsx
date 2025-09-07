@@ -61,7 +61,7 @@ const LoginPage = () => {
    };
 
    const sendRequest = async (data) => {
-      setIsSubmitting(true); // --- CHANGE: Start loading ---
+      setIsSubmitting(true); 
       setServerError("");
       try {
          const res = await API.post("/users/login", data, {
@@ -69,6 +69,8 @@ const LoginPage = () => {
          });
          console.log("User Logged In:", res.data);
          setSuccessDialogOpen(true);
+                     console.log("LoginPage: Data being sent to login context:", res.data.user);
+
          if (res.data.user) {
             login(res.data.user);
          }

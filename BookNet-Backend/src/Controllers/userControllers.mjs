@@ -118,11 +118,11 @@ class UserController {
 
             //  Generate token and respond
             generateTokenWithCookies(res, user.id);
+            const { passwordHash: _, ...userWithoutPassword } = user;
+
             res.status(200).json({
-               message: "Login Successfull",
-               id: user.id,
-               username: user.username,
-               email: user.email,
+               message: "Login Successful",
+               user: userWithoutPassword, // <-- Send the user object here
             });
          }
       } catch (error) {
@@ -217,7 +217,7 @@ class UserController {
       }
    };
 
-/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+   /**------------------------------------------------------------------------------------------------------------------------------------------------------------
  * @description    Get User Profile Details by ID
  * @route          GET /api/v1/users/my-profile
  * @access         Authenticated User
@@ -236,7 +236,7 @@ class UserController {
       try {
          const user = await DB.user.findUnique({
             where: {
-               id:userId,
+               id: userId,
             },
             select: {
                id: true,
@@ -261,7 +261,7 @@ class UserController {
          res.status(500).json({ message: "An unexpected error occurred." });
       }
    };
-/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+   /**------------------------------------------------------------------------------------------------------------------------------------------------------------
  * @description    Get User Profile Details by ID
  * @route          GET /api/v1/users/:id
  * @access         Authenticated User
