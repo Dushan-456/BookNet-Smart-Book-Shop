@@ -91,9 +91,7 @@ const RegisterPage = () => {
       }
    };
 
-      }
-   };
-   if (loading) return <Loading />;
+  
 
    return (
       <div className="flex bg-gray-500 items-center justify-center h-screen">
@@ -269,15 +267,13 @@ const RegisterPage = () => {
                      fullWidth
                      variant="contained"
                      disabled={isSubmitting}
-                     sx={{ height: "48px" }} // Give button a fixed height
+                     sx={{ height: "48px" }} 
                   >
                      {isSubmitting ? (
                         <CircularProgress size={24} color="inherit" />
                      ) : (
-                        "Register"
+                        "Login"
                      )}
-                  <Button type="submit" className="w-full" variant="contained">
-                     Create Account
                   </Button>
                </div>
                <p className="text-center">
