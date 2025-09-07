@@ -24,6 +24,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import API from "../API/api";
+import { useEffect } from "react";
+import Loading from "../Components/Loading/Loading";
 
 const RegisterPage = () => {
    const [showPassword, setShowPassword] = useState(false);
@@ -40,6 +42,17 @@ const RegisterPage = () => {
    const handleMouseUpPassword = (event) => {
       event.preventDefault();
    };
+
+   const [loading, setLoading] = useState(true);
+
+   useEffect(() => {
+      const timer = setTimeout(() => {
+         setLoading(false);
+      }, 1000); // 2 seconds fake loading
+
+      return () => clearTimeout(timer); // cleanup
+   }, []);
+
    // --------------------------------------------------------------
 
    const {
@@ -60,7 +73,6 @@ const RegisterPage = () => {
    const sendRequest = async (data) => {
       try {
          const res = await API.post("/users/register", data);
-
          console.log("User Registered:", res.data);
          setSuccessDialogOpen(true);
          setServerError("");
@@ -80,6 +92,7 @@ const RegisterPage = () => {
          );
       }
    };
+   if (loading) return <Loading />;
 
    return (
       <div className="flex bg-gray-500 items-center justify-center h-screen">
@@ -114,7 +127,6 @@ const RegisterPage = () => {
                   className="w-full"
                   {...register("firstName", {
                      required: "First Name is Required",
-                 
                   })}
                   label="First Name"
                   error={!!errors.firstName}
@@ -124,7 +136,6 @@ const RegisterPage = () => {
                   className="w-full"
                   {...register("lastName", {
                      required: "Last Name is Required",
-               
                   })}
                   label="Last Name"
                   error={!!errors.lastName}
@@ -256,7 +267,7 @@ const RegisterPage = () => {
             open={successDialogOpen}
             onClose={() => {
                setSuccessDialogOpen(false);
-               
+               navigate("/login");
             }}>
             {/* Centered Icon */}
             <Box
@@ -287,7 +298,9 @@ const RegisterPage = () => {
                   textAlign: "center",
                   px: 4,
                }}>
-               <p>The user has been registered successfully!</p>
+               <p>
+                  The user has been registered successfully! Please Log in Now
+               </p>
             </DialogContent>
 
             <DialogActions sx={{ justifyContent: "center", pb: 2 }}>
