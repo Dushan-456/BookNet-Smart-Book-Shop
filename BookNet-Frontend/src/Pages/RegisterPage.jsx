@@ -16,6 +16,7 @@ import {
    Box,
    Alert,
    Stack,
+   CircularProgress,
 } from "@mui/material";
 import { useState } from "react";
 import Visibility from "@mui/icons-material/Visibility";
@@ -24,13 +25,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import API from "../API/api";
-import { useEffect } from "react";
-import Loading from "../Components/Loading/Loading";
 
 const RegisterPage = () => {
    const [showPassword, setShowPassword] = useState(false);
    const [successDialogOpen, setSuccessDialogOpen] = useState(false);
    const [serverError, setServerError] = useState("");
+   const [isSubmitting, setIsSubmitting] = useState(false);
+
    const navigate = useNavigate();
 
    const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -42,16 +43,6 @@ const RegisterPage = () => {
    const handleMouseUpPassword = (event) => {
       event.preventDefault();
    };
-
-   const [loading, setLoading] = useState(true);
-
-   useEffect(() => {
-      const timer = setTimeout(() => {
-         setLoading(false);
-      }, 1000); // 2 seconds fake loading
-
-      return () => clearTimeout(timer); // cleanup
-   }, []);
 
    // --------------------------------------------------------------
 
@@ -71,6 +62,8 @@ const RegisterPage = () => {
    //---------------------------------------------------------------------------------------
 
    const sendRequest = async (data) => {
+      setIsSubmitting(true); // --- CHANGE: Start loading ---
+      setServerError("");
       try {
          const res = await API.post("/users/register", data);
          console.log("User Registered:", res.data);
@@ -90,9 +83,10 @@ const RegisterPage = () => {
                        error.response?.data?.error || "Something went wrong",
                  }
          );
+      } finally {
+         setIsSubmitting(false);
       }
    };
-   if (loading) return <Loading />;
 
    return (
       <div className="flex bg-gray-500 items-center justify-center h-screen">
@@ -122,6 +116,7 @@ const RegisterPage = () => {
                   label="Username"
                   error={!!errors.username}
                   helperText={errors.username?.message}
+                  disabled={isSubmitting}
                />
                <TextField
                   className="w-full"
@@ -131,6 +126,7 @@ const RegisterPage = () => {
                   label="First Name"
                   error={!!errors.firstName}
                   helperText={errors.firstName?.message}
+                  disabled={isSubmitting}
                />
                <TextField
                   className="w-full"
@@ -140,6 +136,7 @@ const RegisterPage = () => {
                   label="Last Name"
                   error={!!errors.lastName}
                   helperText={errors.lastName?.message}
+                  disabled={isSubmitting}
                />
                <TextField
                   className="w-full"
@@ -153,6 +150,7 @@ const RegisterPage = () => {
                   label="Email"
                   error={!!errors.email}
                   helperText={errors.email?.message}
+                  disabled={isSubmitting}
                />
 
                <FormControl
@@ -184,6 +182,7 @@ const RegisterPage = () => {
                               "Must be at least 8 characters",
                         },
                      })}
+                     disabled={isSubmitting}
                      endAdornment={
                         <InputAdornment position="end">
                            <IconButton
@@ -224,6 +223,7 @@ const RegisterPage = () => {
                         validate: (value) =>
                            value === password || "Passwords do not match",
                      })}
+                     disabled={isSubmitting}
                      endAdornment={
                         <InputAdornment position="end">
                            <IconButton
@@ -251,8 +251,18 @@ const RegisterPage = () => {
                </FormControl>
 
                <div>
-                  <Button type="submit" className="w-full" variant="contained">
-                     Create Account
+                  <Button
+                     type="submit"
+                     fullWidth
+                     variant="contained"
+                     disabled={isSubmitting}
+                     sx={{ height: "48px" }} // Give button a fixed height
+                  >
+                     {isSubmitting ? (
+                        <CircularProgress size={24} color="inherit" />
+                     ) : (
+                        "Register"
+                     )}
                   </Button>
                </div>
                <p className="text-center">
