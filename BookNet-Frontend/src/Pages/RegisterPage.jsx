@@ -88,6 +88,7 @@ const RegisterPage = () => {
          );
       } finally {
          setIsSubmitting(false);
+
       }
    };
 
@@ -272,7 +273,7 @@ const RegisterPage = () => {
                      {isSubmitting ? (
                         <CircularProgress size={24} color="inherit" />
                      ) : (
-                        "Login"
+                        "Register"
                      )}
                   </Button>
                </div>
