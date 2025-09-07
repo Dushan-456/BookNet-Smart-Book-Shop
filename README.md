@@ -76,7 +76,7 @@ Follow these instructions to get a copy of the project up and running on your lo
 5.  **Seed the database with initial data (optional but recommended):**
     This will populate your database with sample users, categories, and products.
     ```bash
-    npm run prisma:seed
+    npm run seed
     ```
 
 6.  **Start the server:**
