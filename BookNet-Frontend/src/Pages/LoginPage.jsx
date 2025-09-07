@@ -16,20 +16,26 @@ import {
    Box,
    Alert,
    Stack,
+   CircularProgress ,
 } from "@mui/material";
 import { useState } from "react";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import API from "../API/api";
+import { useAuth } from "../Context/AuthContext";
 
 const LoginPage = () => {
+   const { login } = useAuth();
+
    const [showPassword, setShowPassword] = useState(false);
    const [successDialogOpen, setSuccessDialogOpen] = useState(false);
    const [serverError, setServerError] = useState("");
-   //  const navigate = useNavigate();
+   const [isSubmitting, setIsSubmitting] = useState(false);
+
+   const navigate = useNavigate();
 
    const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -55,12 +61,17 @@ const LoginPage = () => {
    };
 
    const sendRequest = async (data) => {
+      setIsSubmitting(true); // --- CHANGE: Start loading ---
+      setServerError("");
       try {
          const res = await API.post("/users/login", data, {
             withCredentials: true,
          });
          console.log("User Logged In:", res.data);
          setSuccessDialogOpen(true);
+         if (res.data.user) {
+            login(res.data.user);
+         }
          setServerError("");
       } catch (error) {
          console.error(
@@ -76,6 +87,8 @@ const LoginPage = () => {
                        error.response?.data?.error || "Something went wrong",
                  }
          );
+      } finally {
+         setIsSubmitting(false);
       }
    };
 
@@ -102,6 +115,7 @@ const LoginPage = () => {
                   })}
                   error={!!errors.emailOrUsername}
                   helperText={errors.emailOrUsername?.message}
+                  disabled={isSubmitting}
                />
 
                <FormControl
@@ -118,6 +132,7 @@ const LoginPage = () => {
                      {...register("password", {
                         required: "Password is Required",
                      })}
+                     disabled={isSubmitting}
                      endAdornment={
                         <InputAdornment position="end">
                            <IconButton
@@ -143,8 +158,18 @@ const LoginPage = () => {
                </FormControl>
 
                <div>
-                  <Button type="submit" className="w-full" variant="contained">
-                     Login
+                  <Button
+                     type="submit"
+                     fullWidth
+                     variant="contained"
+                     disabled={isSubmitting}
+                     sx={{ height: "48px" }} 
+                  >
+                     {isSubmitting ? (
+                        <CircularProgress size={24} color="inherit" />
+                     ) : (
+                        "Login"
+                     )}
                   </Button>
                </div>
                <p className="text-center">
@@ -162,6 +187,7 @@ const LoginPage = () => {
             open={successDialogOpen}
             onClose={() => {
                setSuccessDialogOpen(false);
+               navigate("/profile");
             }}>
             {/* Centered Icon */}
             <Box
@@ -197,7 +223,7 @@ const LoginPage = () => {
                <Button
                   onClick={() => {
                      setSuccessDialogOpen(false);
-                     //  navigate("/profile");
+                     navigate("/profile");
                   }}
                   autoFocus
                   variant="contained">
