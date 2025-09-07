@@ -63,7 +63,7 @@ class UserController {
             const field = error.meta.target[0]; //  'Username' or 'Email'
             return res
                .status(409)
-               .json({ message: `${field} is already taken.` });
+               .json({ error: `${field} is already taken.` });
          }
 
          res.status(500).json({ message: "Server error during registration" });
@@ -100,14 +100,14 @@ class UserController {
          if (!user) {
             return res
                .status(401)
-               .json({ message: "User Name or Email Not Registered in Sytem" });
+               .json({ error: "User Name or Email Not Registered in Sytem" });
          }
 
          //  Compare passwords
          const isMatch = await bcrypt.compare(password, user.passwordHash);
 
          if (!isMatch) {
-            return res.status(401).json({ message: "Invalid credentials" });
+            return res.status(401).json({ error: "Invalid credentials" });
          }
          if (user && isMatch) {
             // --- MERGE Cart ---
