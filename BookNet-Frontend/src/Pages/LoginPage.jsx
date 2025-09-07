@@ -152,7 +152,7 @@ const LoginPage = () => {
                   <Link to="/register">
                      <span className="text-blue-600 font-bold">
                         {" "}
-                        Create new
+                        Register Now
                      </span>{" "}
                   </Link>{" "}
                </p>
