@@ -26,11 +26,13 @@ import { useForm } from "react-hook-form";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import API from "../API/api";
 
+
 const RegisterPage = () => {
    const [showPassword, setShowPassword] = useState(false);
    const [successDialogOpen, setSuccessDialogOpen] = useState(false);
    const [serverError, setServerError] = useState("");
    const [isSubmitting, setIsSubmitting] = useState(false);
+
 
    const navigate = useNavigate();
 
@@ -64,6 +66,7 @@ const RegisterPage = () => {
    const sendRequest = async (data) => {
       setIsSubmitting(true); // --- CHANGE: Start loading ---
       setServerError("");
+
       try {
          const res = await API.post("/users/register", data);
          console.log("User Registered:", res.data);
@@ -87,6 +90,10 @@ const RegisterPage = () => {
          setIsSubmitting(false);
       }
    };
+
+      }
+   };
+   if (loading) return <Loading />;
 
    return (
       <div className="flex bg-gray-500 items-center justify-center h-screen">
@@ -117,6 +124,7 @@ const RegisterPage = () => {
                   error={!!errors.username}
                   helperText={errors.username?.message}
                   disabled={isSubmitting}
+
                />
                <TextField
                   className="w-full"
@@ -127,6 +135,7 @@ const RegisterPage = () => {
                   error={!!errors.firstName}
                   helperText={errors.firstName?.message}
                   disabled={isSubmitting}
+
                />
                <TextField
                   className="w-full"
@@ -137,6 +146,7 @@ const RegisterPage = () => {
                   error={!!errors.lastName}
                   helperText={errors.lastName?.message}
                   disabled={isSubmitting}
+
                />
                <TextField
                   className="w-full"
@@ -151,6 +161,7 @@ const RegisterPage = () => {
                   error={!!errors.email}
                   helperText={errors.email?.message}
                   disabled={isSubmitting}
+
                />
 
                <FormControl
@@ -183,6 +194,7 @@ const RegisterPage = () => {
                         },
                      })}
                      disabled={isSubmitting}
+
                      endAdornment={
                         <InputAdornment position="end">
                            <IconButton
@@ -224,6 +236,7 @@ const RegisterPage = () => {
                            value === password || "Passwords do not match",
                      })}
                      disabled={isSubmitting}
+
                      endAdornment={
                         <InputAdornment position="end">
                            <IconButton
@@ -263,6 +276,8 @@ const RegisterPage = () => {
                      ) : (
                         "Register"
                      )}
+                  <Button type="submit" className="w-full" variant="contained">
+                     Create Account
                   </Button>
                </div>
                <p className="text-center">
