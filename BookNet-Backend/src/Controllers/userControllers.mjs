@@ -94,7 +94,12 @@ class UserController {
          const user = await DB.user.findFirst({
             where: {
                OR: [{ email: emailOrUsername }, { username: emailOrUsername }],
-            },
+            },  include: {
+                Profile: { 
+                    select: {
+                        image: true 
+                    }
+                  }}
          });
 
          if (!user) {

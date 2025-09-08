@@ -25,14 +25,16 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import API from "../API/api";
-
+import { useEffect } from "react";
+import { useAuth } from "../Context/AuthContext";
 
 const RegisterPage = () => {
+   const { isAuthenticated } = useAuth();
+
    const [showPassword, setShowPassword] = useState(false);
    const [successDialogOpen, setSuccessDialogOpen] = useState(false);
    const [serverError, setServerError] = useState("");
    const [isSubmitting, setIsSubmitting] = useState(false);
-
 
    const navigate = useNavigate();
 
@@ -88,16 +90,23 @@ const RegisterPage = () => {
          );
       } finally {
          setIsSubmitting(false);
-
       }
    };
-
-  
+   useEffect(() => {
+      // If the user is already authenticated, redirect them
+      if (isAuthenticated) {
+         navigate("/profile", { replace: true });
+      }
+   }, [isAuthenticated, navigate]);
 
    return (
-      <div className="flex bg-gray-500 items-center justify-center h-screen">
+      <div
+         className="flex  items-center justify-center "
+         style={{ height: "75vh" }}>
          <form onSubmit={handleSubmit(submitCall)}>
-            <div className="w-sm flex flex-col p-5 gap-5 bg-white  rounded-2xl ">
+            <div
+               className="w-sm flex flex-col p-5 gap-5 bg-white  rounded-2xl "
+               style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
                <h1 className="text-4xl font-bold text-center">
                   Create an Account
                   {serverError && typeof serverError === "object" && (
@@ -123,7 +132,6 @@ const RegisterPage = () => {
                   error={!!errors.username}
                   helperText={errors.username?.message}
                   disabled={isSubmitting}
-
                />
                <TextField
                   className="w-full"
@@ -134,7 +142,6 @@ const RegisterPage = () => {
                   error={!!errors.firstName}
                   helperText={errors.firstName?.message}
                   disabled={isSubmitting}
-
                />
                <TextField
                   className="w-full"
@@ -145,7 +152,6 @@ const RegisterPage = () => {
                   error={!!errors.lastName}
                   helperText={errors.lastName?.message}
                   disabled={isSubmitting}
-
                />
                <TextField
                   className="w-full"
@@ -160,7 +166,6 @@ const RegisterPage = () => {
                   error={!!errors.email}
                   helperText={errors.email?.message}
                   disabled={isSubmitting}
-
                />
 
                <FormControl
@@ -193,7 +198,6 @@ const RegisterPage = () => {
                         },
                      })}
                      disabled={isSubmitting}
-
                      endAdornment={
                         <InputAdornment position="end">
                            <IconButton
@@ -235,7 +239,6 @@ const RegisterPage = () => {
                            value === password || "Passwords do not match",
                      })}
                      disabled={isSubmitting}
-
                      endAdornment={
                         <InputAdornment position="end">
                            <IconButton
@@ -268,8 +271,7 @@ const RegisterPage = () => {
                      fullWidth
                      variant="contained"
                      disabled={isSubmitting}
-                     sx={{ height: "48px" }} 
-                  >
+                     sx={{ height: "48px" }}>
                      {isSubmitting ? (
                         <CircularProgress size={24} color="inherit" />
                      ) : (

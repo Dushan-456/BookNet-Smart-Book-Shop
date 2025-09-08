@@ -22,6 +22,14 @@ const router = createBrowserRouter([
             path: "about",
             element: <About />,
          },
+         {
+            path: "/login",
+            element: <LoginPage />,
+         },
+         {
+            path: "/register",
+            element: <RegisterPage />,
+         },
 
          // --- Protected Routes (User must be logged in) ---
          {
@@ -46,14 +54,14 @@ const router = createBrowserRouter([
       ],
    },
    // --- Routes without the MainLayout --------------------------------------------------------------------------------------------------------------------------------
-   {
-      path: "/login",
-      element: <LoginPage />,
-   },
-   {
-      path: "/register",
-      element: <RegisterPage />,
-   },
+   // {
+   //    path: "/login",
+   //    element: <LoginPage />,
+   // },
+   // {
+   //    path: "/register",
+   //    element: <RegisterPage />,
+   // },
 ]);
 
 const AppRouter = () => {

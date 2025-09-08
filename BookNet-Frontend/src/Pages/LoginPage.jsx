@@ -16,7 +16,7 @@ import {
    Box,
    Alert,
    Stack,
-   CircularProgress ,
+   CircularProgress,
 } from "@mui/material";
 import { useState } from "react";
 import Visibility from "@mui/icons-material/Visibility";
@@ -26,9 +26,10 @@ import { useForm } from "react-hook-form";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import API from "../API/api";
 import { useAuth } from "../Context/AuthContext";
+import { useEffect } from "react";
 
 const LoginPage = () => {
-   const { login } = useAuth();
+   const { login, isAuthenticated } = useAuth();
 
    const [showPassword, setShowPassword] = useState(false);
    const [successDialogOpen, setSuccessDialogOpen] = useState(false);
@@ -61,7 +62,7 @@ const LoginPage = () => {
    };
 
    const sendRequest = async (data) => {
-      setIsSubmitting(true); 
+      setIsSubmitting(true);
       setServerError("");
       try {
          const res = await API.post("/users/login", data, {
@@ -69,7 +70,10 @@ const LoginPage = () => {
          });
          console.log("User Logged In:", res.data);
          setSuccessDialogOpen(true);
-                     console.log("LoginPage: Data being sent to login context:", res.data.user);
+         console.log(
+            "LoginPage: Data being sent to login context:",
+            res.data.user
+         );
 
          if (res.data.user) {
             login(res.data.user);
@@ -94,10 +98,21 @@ const LoginPage = () => {
       }
    };
 
+   useEffect(() => {
+      // If the user is already authenticated, redirect them
+      if (isAuthenticated) {
+         navigate("/profile", { replace: true }); 
+      }
+   }, [isAuthenticated, navigate]);
+
    return (
-      <div className="flex bg-gray-500 items-center justify-center h-screen">
+      <div
+         className="flex items-center justify-center flex-col"
+         style={{ height: "75vh" }}>
          <form onSubmit={handleSubmit(submitCall)}>
-            <div className="w-sm flex flex-col p-5 gap-5 bg-white  rounded-2xl ">
+            <div
+               className="w-sm flex flex-col p-5 gap-5 bg-white  rounded-2xl "
+               style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
                <h1 className="text-4xl font-bold text-center">Login</h1>
                {serverError && typeof serverError === "object" && (
                   <Stack sx={{ width: "100%" }} spacing={2}>
@@ -165,8 +180,7 @@ const LoginPage = () => {
                      fullWidth
                      variant="contained"
                      disabled={isSubmitting}
-                     sx={{ height: "48px" }} 
-                  >
+                     sx={{ height: "48px" }}>
                      {isSubmitting ? (
                         <CircularProgress size={24} color="inherit" />
                      ) : (

@@ -1,0 +1,14 @@
+.search{
+    border: 1px solid rgb(170, 202, 240);
+    border-radius: 25px;
+    height: 40px;
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    margin-left: 10px;
+}
+.search input {
+    width: 100%;
+}
