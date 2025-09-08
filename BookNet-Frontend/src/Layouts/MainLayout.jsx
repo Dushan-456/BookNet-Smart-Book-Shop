@@ -1,12 +1,12 @@
 import { Outlet } from "react-router-dom";
-import Header from "../components/Header/Header";
-import Footer from "../components/Footer/footer";
+import Footer from "../Components/Footer/footer";
+import Header from "../Components/Header/Header";
 
 const MainLayout = () => {
    return (
       <div className="w-full h-screen">
          <Header />
-         <div className="mt-30">
+         <div className="">
             <Outlet />
          </div>
          <Footer />
