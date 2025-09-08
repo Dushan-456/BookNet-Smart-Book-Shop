@@ -108,7 +108,8 @@ const UserIcon = () => {
                      </button>
                      <button
                         onClick={handleLogout}
-                        className="flex justify-center cursor-pointer mt-2 items-center rounded-xl w-full bg-[#6841f3] text-white text-left px-4 py-2 hover:bg-[#3a305a]">
+                        className="flex justify-center cursor-pointer mt-2 items-center rounded-xl w-full bg-[#ff0000] text-white text-left px-4 py-2 hover:bg-[#3a305a]">
+
                         <span className="text-center">Log Out</span>
                      </button>
                   </div>
