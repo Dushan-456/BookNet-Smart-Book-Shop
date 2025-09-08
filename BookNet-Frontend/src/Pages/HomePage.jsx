@@ -20,7 +20,7 @@ const HomePage = () => {
     if(loading) return <Loading/>
     
   return (
-    <div>
+    <div className='bg-amber-300 h-80'>
       <h1>Home Page</h1>
     </div>
   )
