@@ -98,13 +98,13 @@ const UserIcon = () => {
                      </div>
                      <hr />
                      <button className="flex items-center cursor-pointer w-full text-left px-4 py-2 hover:bg-gray-100">
-                        <span>My Address</span>
-                     </button>
-                     <button className="flex items-center cursor-pointer w-full text-left px-4 py-2 hover:bg-gray-100">
                         <span>Settings</span>
                      </button>
                      <button className="flex items-center cursor-pointer w-full text-left px-4 py-2 hover:bg-gray-100">
-                        <span>Orders</span>
+                        <span>My Profile</span>
+                     </button>
+                     <button className="flex items-center cursor-pointer w-full text-left px-4 py-2 hover:bg-gray-100">
+                        <span>My Orders</span>
                      </button>
                      <button
                         onClick={handleLogout}
