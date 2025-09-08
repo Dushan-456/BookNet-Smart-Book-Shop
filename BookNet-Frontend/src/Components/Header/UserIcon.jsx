@@ -66,8 +66,8 @@ const UserIcon = () => {
             <IconButton color="inherit" onClick={() => setOpen(!open)}>
                <Avatar
                   {...stringAvatar(user.firstName + " " + user.lastName)}
-                //   src={user?.Profile.image}
-                  sx={{ border: "3px solid #6841f3",width: 45, height: 45, }}
+                  src={user?.Profile?.image || ""}
+                  sx={{ border: "3px solid #6841f3", width: 45, height: 45 }}
                />
             </IconButton>
          ) : (
@@ -80,19 +80,22 @@ const UserIcon = () => {
             <div className="custom-scroll absolute z-50 mt-2 w-max h-min   bg-white border border-gray-200 rounded-md shadow-lg">
                {isAuthenticated ? (
                   <div className="p-5">
-                     <div className="flex items-center gap-2 mb-2 ">
+                     <div className="flex items-center gap-2 mb-2 w-60 overflow-hidden">
                         <Avatar
                            {...stringAvatar(
                               user.firstName + " " + user.lastName
                            )}
-                        //    src={user?.Profile.image}
-                           sx={{ width: 50, height: 50,border: "3px solid #6841f3" }}
+                           src={user?.Profile?.image || ""}
+                           sx={{
+                              width: 50,
+                              height: 50,
+                              border: "3px solid #6841f3",
+                           }}
                         />{" "}
-                        
                         <div>
                            <p>Welcome Back</p>{" "}
                            <h3 className="text-lg font-bold">
-                              {user.firstName + " " + user.lastName}
+                              {user.firstName}
                            </h3>
                         </div>
                      </div>
@@ -109,7 +112,6 @@ const UserIcon = () => {
                      <button
                         onClick={handleLogout}
                         className="flex justify-center cursor-pointer mt-2 items-center rounded-xl w-full bg-[#ff0000] text-white text-left px-4 py-2 hover:bg-[#3a305a]">
-
                         <span className="text-center">Log Out</span>
                      </button>
                   </div>
