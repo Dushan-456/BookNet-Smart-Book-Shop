@@ -66,7 +66,7 @@ const UserIcon = () => {
             <IconButton color="inherit" onClick={() => setOpen(!open)}>
                <Avatar
                   {...stringAvatar(user.firstName + " " + user.lastName)}
-                  src={user?.Profile.image}
+                //   src={user?.Profile.image}
                   sx={{ border: "3px solid #6841f3",width: 45, height: 45, }}
                />
             </IconButton>
@@ -85,7 +85,7 @@ const UserIcon = () => {
                            {...stringAvatar(
                               user.firstName + " " + user.lastName
                            )}
-                           src={user?.Profile.image}
+                        //    src={user?.Profile.image}
                            sx={{ width: 50, height: 50,border: "3px solid #6841f3" }}
                         />{" "}
                         
