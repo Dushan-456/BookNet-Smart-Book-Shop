@@ -1,8 +1,8 @@
 .navmenu .active {
-   color: red;
+   color: red !important;
 }
 .navmenu a.pending {
-   color: blue;
+   color: blue !important;
 }
 .navmenu a.transitioning {
    view-transition-name: my-transition;
