@@ -136,7 +136,7 @@ const UserIcon = () => {
                            navigate("/register");
                            setOpen(false);
                         }}
-                        className="flex cursor-pointer justify-center mt-5 rounded-xl items-center w-full bg-[#6841f3] text-white text-left px-4 py-2 hover:bg-[#3a305a]">
+                        className="flex cursor-pointer justify-center mt-5 rounded-xl items-center w-full bg-[#062196] text-white text-left px-4 py-2 hover:bg-[#3a305a]">
                         <span className="text-center">Register</span>
                      </button>
                   </div>
