@@ -16,8 +16,10 @@ import LocalMallIcon from "@mui/icons-material/LocalMall";
 import "./Header.css";
 import logo from "../../assets/Images/BookNet-Logo-Small-without-BG.png";
 import UserIcon from "./UserIcon";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import HeaderNavMenu from "../Menus/HeaderNavMenu";
+import SideDrawerMenu from "../Menus/SideDrawerMenu";
+import HeaderCategories from "./HeaderCategories";
 
 const pages = ["Products", "Pricing", "Blog"];
 
@@ -35,53 +37,23 @@ function Header() {
    };
 
    return (
-      <AppBar position="static" color="white">
-         <Container maxWidth="lg">
-            <Toolbar disableGutters>
+      <div  style={{boxShadow: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px"}}>
+         <div  className="container   py-1 px-2 m-auto">
+            <div className="flex items-center">
                <IconButton
-                  sx={{ borderRadius: 3 }}
+               
+                  sx={{ borderRadius: 3,display: { xs: "none", md: "flex" } }}
                   onClick={() => navigate("/")}>
                   <img src={logo} width={"300px"} alt="BookNet Logo" />
                </IconButton>
 
                <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-                  <IconButton
-                     size="large"
-                     aria-label="account of current user"
-                     aria-controls="menu-appbar"
-                     aria-haspopup="true"
-                     onClick={handleOpenNavMenu}
-                     color="inherit">
-                     <MenuIcon />
-                  </IconButton>
-                  <Menu
-                     id="menu-appbar"
-                     anchorEl={anchorElNav}
-                     anchorOrigin={{
-                        vertical: "bottom",
-                        horizontal: "left",
-                     }}
-                     keepMounted
-                     transformOrigin={{
-                        vertical: "top",
-                        horizontal: "left",
-                     }}
-                     open={Boolean(anchorElNav)}
-                     onClose={handleCloseNavMenu}
-                     sx={{ display: { xs: "block", md: "none" } }}>
-                     {pages.map((page) => (
-                        <MenuItem key={page} onClick={handleCloseNavMenu}>
-                           <Typography sx={{ textAlign: "center" }}>
-                              {page}
-                           </Typography>
-                        </MenuItem>
-                     ))}
-                  </Menu>
+                  <SideDrawerMenu/>
+                 
                </Box>
                <Typography
                   noWrap
-                  component="a"
-                  href="#app-bar-with-responsive-menu"
+        
                   sx={{
                      mr: 2,
                      display: { xs: "flex", md: "none" },
@@ -90,7 +62,7 @@ function Header() {
                   <IconButton
                      sx={{ borderRadius: 3 }}
                      onClick={() => navigate("/")}>
-                     <img src={logo} width={"150px"} alt="BookNet Logo" />
+                     <img src={logo} width={"150px"} alt="BookNet Logo" className="" />
                   </IconButton>
                </Typography>
                <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
@@ -106,13 +78,14 @@ function Header() {
                   </div>
                </Box>
 
-               <Box sx={{ flexGrow: 0 }}>
-                  <Tooltip title="Profile Details">
+               <div >
+                  <Tooltip title="Profile Details" >
                      <UserIcon />
                   </Tooltip>
 
-                  <Tooltip title="Notifications">
+                  <Tooltip title="Notifications" sx={{display: { xs: "none", md: "inline" }}}>
                      <IconButton
+                     sx={{width:50,height:50}}
                         size="large"
                         color="inherit">
                         <Badge badgeContent={4} color="error">
@@ -120,7 +93,7 @@ function Header() {
                         </Badge>
                      </IconButton>
                   </Tooltip>
-                  <Tooltip title="Cart">
+                  <Tooltip title="Cart" >
                      <IconButton
                         onClick={() => navigate("/cart")}
                         style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
@@ -131,13 +104,14 @@ function Header() {
                         </Badge>
                      </IconButton>
                   </Tooltip>
-               </Box>
-            </Toolbar>
-         </Container>
-         <Container>
+               </div>
+            </div>
+         </div>
+         <div  className="container px-20 pb-2  m-auto hidden md:flex items-center justify-between" >
+            <HeaderCategories/>
             <HeaderNavMenu />
-         </Container>
-      </AppBar>
+         </div>
+      </div>
    );
 }
 export default Header;
