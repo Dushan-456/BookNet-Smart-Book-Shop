@@ -80,19 +80,18 @@ function Header() {
             </div>
           </Box>
 
-          <div>
-            <Tooltip title="Profile Details">
+          <div className="flex items-center">
+            <div>
               <UserIcon />
-            </Tooltip>
+            </div>
 
-            <Tooltip
-              title="Notifications"
-              sx={{
-                display: { xs: "none", md: "inline" },
-              }}
-            >
+            <div className="hidden md:block">
               <IconButton
-                sx={{ width: 50, height: 50, marginRight: "10px" }}
+                sx={{
+                  width: 50,
+                  height: 50,
+                  marginRight: "10px",
+                }}
                 size="large"
                 color="inherit"
                 onClick={() => navigate("/notifications")}
@@ -101,8 +100,8 @@ function Header() {
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
-            </Tooltip>
-            <Tooltip title="Cart">
+            </div>
+            <div>
               <IconButton
                 onClick={() => navigate("/cart")}
                 style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
@@ -113,7 +112,7 @@ function Header() {
                   <LocalMallIcon style={{ fontSize: "32px" }} />
                 </Badge>
               </IconButton>
-            </Tooltip>
+            </div>
           </div>
         </div>
       </div>
