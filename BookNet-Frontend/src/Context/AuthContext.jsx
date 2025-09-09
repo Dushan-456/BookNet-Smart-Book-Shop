@@ -1,10 +1,9 @@
 import React, { createContext, useState, useContext } from "react";
 import API from "../API/api";
 
-// 1. Create the context
 const AuthContext = createContext(null);
 
-// 2. Create the provider component
+// Create the provider component
 export const AuthProvider = ({ children }) => {
    // Initialize state from localStorage to check for an existing session
    const [user, setUser] = useState(() => {
@@ -17,10 +16,7 @@ export const AuthProvider = ({ children }) => {
       }
    });
 
-   /**
-    * login function: Updates the user state and stores it in localStorage.
-    * @param {object} userData - The user object received from the API.
-    */
+  
    const login = (userData) => {
       // Store user data in both component state and browser's localStorage
       setUser(userData);
@@ -32,13 +28,10 @@ export const AuthProvider = ({ children }) => {
     */
    const logout = async () => {
       try {
-         // Call the backend endpoint to clear the HttpOnly cookie
          await API.post("/users/logout");
       } catch (error) {
          console.error("Logout failed:", error);
-         // Even if the server call fails, proceed to clear client-side data
       } finally {
-         // Clear user data from component state and localStorage
          setUser(null);
          localStorage.removeItem("user");
       }
