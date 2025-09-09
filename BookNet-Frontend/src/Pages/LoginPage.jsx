@@ -8,12 +8,7 @@ import {
   Button,
 } from "@mui/material";
 import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
   TextField,
-  Box,
   Alert,
   Stack,
   CircularProgress,
@@ -23,7 +18,6 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import API from "../API/api";
 import { useAuth } from "../Context/AuthContext";
 import { useEffect } from "react";
