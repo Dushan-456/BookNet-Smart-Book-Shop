@@ -4,9 +4,9 @@ import Header from "../Components/Header/Header";
 
 const MainLayout = () => {
    return (
-      <div className="w-full h-screen">
+      <div className=" w-full overflow-hidden min-h-screen" >
          <Header />
-         <div className="">
+         <div className="container mx-auto">
             <Outlet />
          </div>
          <Footer />
