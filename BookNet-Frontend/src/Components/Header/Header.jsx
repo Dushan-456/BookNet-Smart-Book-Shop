@@ -21,20 +21,10 @@ import HeaderNavMenu from "../Menus/HeaderNavMenu";
 import SideDrawerMenu from "../Menus/SideDrawerMenu";
 import HeaderCategories from "./HeaderCategories";
 
-const pages = ["Products", "Pricing", "Blog"];
 
 function Header() {
   const navigate = useNavigate();
 
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
 
   return (
     <div
