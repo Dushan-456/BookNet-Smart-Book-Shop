@@ -7,6 +7,8 @@ import LoginPage from "../Pages/LoginPage";
 import UserProfile from "../Pages/UserProfile";
 import ProtectedRouter from "./ProtectedRouter";
 import RegisterPage from "../Pages/RegisterPage";
+import CartPage from "../Pages/CartPage";
+import ContactPage from "../Pages/ContactPage";
 
 const router = createBrowserRouter([
    {
@@ -23,12 +25,20 @@ const router = createBrowserRouter([
             element: <About />,
          },
          {
-            path: "/login",
+            path: "login",
             element: <LoginPage />,
          },
          {
-            path: "/register",
+            path: "register",
             element: <RegisterPage />,
+         },
+         {
+            path: "cart",
+            element: <CartPage />,
+         },
+         {
+            path: "contact",
+            element: <ContactPage />,
          },
 
          // --- Protected Routes (User must be logged in) ---
