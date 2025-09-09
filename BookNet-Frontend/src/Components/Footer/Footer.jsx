@@ -23,7 +23,7 @@ const Footer = () => {
           <h2 className="text-2xl text-center font-semibold">fkbbjfbv</h2>
         </div>
       </div>
-      <div className=" bg-gray-800 text-white p-4   text-center">
+      <div className=" bg-gray-800 text-white p-3  text-center">
         <p>&copy; {new Date().getFullYear()} BookNet. All Rights Reserved.</p>
       </div>
     </footer>
