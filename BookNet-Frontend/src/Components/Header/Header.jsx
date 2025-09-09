@@ -95,6 +95,7 @@ function Header() {
                 sx={{ width: 50, height: 50, marginRight: "10px" }}
                 size="large"
                 color="inherit"
+                onClick={() => navigate("/notifications")}
               >
                 <Badge badgeContent={4} color="error">
                   <NotificationsIcon />
