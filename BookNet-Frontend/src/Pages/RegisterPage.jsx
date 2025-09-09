@@ -102,10 +102,10 @@ const RegisterPage = () => {
    return (
       <div
          className="flex  items-center justify-center "
-         style={{ height: "75vh" }}>
+         >
          <form onSubmit={handleSubmit(submitCall)}>
             <div
-               className="w-sm flex flex-col p-5 gap-5 bg-white  rounded-2xl "
+               className="w-sm flex flex-col p-5 gap-5 bg-white  rounded-2xl mt-10"
                style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
                <h1 className="text-4xl font-bold text-center">
                   Create an Account
