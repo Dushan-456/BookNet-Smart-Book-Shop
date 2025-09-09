@@ -75,6 +75,7 @@ const UserIcon = () => {
                <Avatar />
             </IconButton>
          )}
+         
          {open && (
             <div className="custom-scroll absolute z-50 mt-2 w-max h-min   bg-white border border-gray-200 rounded-md shadow-lg">
                {isAuthenticated ? (
