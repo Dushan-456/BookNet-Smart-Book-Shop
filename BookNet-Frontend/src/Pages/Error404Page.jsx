@@ -20,7 +20,7 @@ const Error404Page = () => {
             Sorry ! We couldn't find that page.
          </p>
 
-         <img src={errorimg} alt="Error 404" style={{ width: "45%" }} />
+         <img src={errorimg} alt="Error 404" className="md:w-1/2"  />
          <Button
             variant="outlined"
             onClick={() => navigate("/")}
