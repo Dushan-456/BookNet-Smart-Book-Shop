@@ -61,7 +61,7 @@ const UserIcon = () => {
       };
    }
    return (
-      <div className=" relative inline-block text-left" ref={dropdownRef}>
+      <div className=" relative hidden md:inline-block text-left" ref={dropdownRef}>
          {isAuthenticated ? (
             <IconButton color="inherit" onClick={() => setOpen(!open)}>
                <Avatar
@@ -100,13 +100,25 @@ const UserIcon = () => {
                         </div>
                      </div>
                      <hr />
-                     <button className="flex items-center cursor-pointer w-full text-left px-4 py-2 hover:bg-gray-100">
+                     <button onClick={() => {
+                           navigate("/settings");
+                           setOpen(false);
+                        }}
+                      className="flex items-center cursor-pointer w-full text-left px-4 py-2 hover:bg-gray-100">
                         <span>Settings</span>
                      </button>
-                     <button className="flex items-center cursor-pointer w-full text-left px-4 py-2 hover:bg-gray-100">
+                     <button onClick={() => {
+                           navigate("/profile");
+                           setOpen(false);
+                        }}
+                      className="flex items-center cursor-pointer w-full text-left px-4 py-2 hover:bg-gray-100">
                         <span>My Profile</span>
                      </button>
-                     <button className="flex items-center cursor-pointer w-full text-left px-4 py-2 hover:bg-gray-100">
+                     <button onClick={() => {
+                           navigate("/orders");
+                           setOpen(false);
+                        }}
+                      className="flex items-center cursor-pointer w-full text-left px-4 py-2 hover:bg-gray-100">
                         <span>My Orders</span>
                      </button>
                      <button
