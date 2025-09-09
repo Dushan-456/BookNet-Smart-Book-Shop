@@ -203,7 +203,7 @@ const LoginPage = () => {
             open={successDialogOpen}
             onClose={() => {
                setSuccessDialogOpen(false);
-               navigate("/profile");
+               // navigate("/profile");
             }}>
             {/* Centered Icon */}
             <Box
@@ -239,7 +239,7 @@ const LoginPage = () => {
                <Button
                   onClick={() => {
                      setSuccessDialogOpen(false);
-                     navigate("/profile");
+                     // navigate("/profile");
                   }}
                   autoFocus
                   variant="contained">
