@@ -34,18 +34,24 @@ class ProductController {
          const totalProducts = await DB.product.count({ where });
 
          const products = await DB.product.findMany({
-            where,
-            skip,
-            take: limitNum,
-            orderBy: {
-               [sortBy]: sortOrder,
-            },
-            include: {
-               // Include category name for context
-               category: {
-                  select: { name: true },
-               },
-            },
+           where,
+           skip,
+           take: limitNum,
+           orderBy: {
+             [sortBy]: sortOrder,
+           },
+           include: {
+             // Include category name for context
+             category: {
+               select: { name: true },
+             },
+           },
+           include: {
+             // Include category name for context
+             images: {
+               select: { url: true, isPrimary: true },
+             },
+           },
          });
 
          res.status(200).json({
