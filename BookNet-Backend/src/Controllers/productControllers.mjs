@@ -3,14 +3,12 @@ import { matchedData, validationResult } from "express-validator";
 import DB from "../db/db.mjs";
 
 class ProductController {
-
-
-/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+   /**------------------------------------------------------------------------------------------------------------------------------------------------------------
  * @description    Get All Product
  * @route          GET /api/v1/products/
  * @access         Public
  ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-    getAllProducts = async (req, res) => {
+   getAllProducts = async (req, res) => {
       const {
          category,
          type,
@@ -34,24 +32,18 @@ class ProductController {
          const totalProducts = await DB.product.count({ where });
 
          const products = await DB.product.findMany({
-           where,
-           skip,
-           take: limitNum,
-           orderBy: {
-             [sortBy]: sortOrder,
-           },
-           include: {
-             // Include category name for context
-             category: {
-               select: { name: true },
-             },
-           },
-           include: {
-             // Include category name for context
-             images: {
-               select: { url: true, isPrimary: true },
-             },
-           },
+            where,
+            skip,
+            take: limitNum,
+            orderBy: [{ [sortBy]: sortOrder }, { id: "asc" }],
+            include: {
+               category: {
+                  select: { name: true },
+               },
+               images: {
+                  select: { url: true, isPrimary: true },
+               },
+            },
          });
 
          res.status(200).json({
@@ -69,12 +61,12 @@ class ProductController {
       }
    };
 
-/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+   /**------------------------------------------------------------------------------------------------------------------------------------------------------------
  * @description    Get  Product by ID
  * @route          GET /api/v1/products/:id
  * @access         Public
  ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-    getProductById = async (req, res) => {
+   getProductById = async (req, res) => {
       const { id } = req.params;
       try {
          const product = await DB.product.findUnique({
@@ -95,13 +87,12 @@ class ProductController {
       }
    };
 
-
-/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+   /**------------------------------------------------------------------------------------------------------------------------------------------------------------
  * @description    Create/Add New Product
  * @route          POST /api/v1/products/
  * @access         Admin
  ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-    createProduct = async (req, res) => {
+   createProduct = async (req, res) => {
       const error = validationResult(req);
       const creatingError = errorCreate(error.array());
       if (error.array().length) {
@@ -169,13 +160,12 @@ class ProductController {
       }
    };
 
-  
-/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+   /**------------------------------------------------------------------------------------------------------------------------------------------------------------
  * @description    Update Product by ID
  * @route          PUT /api/v1/products/:id
  * @access         Admin
  ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-    updateProduct = async (req, res) => {
+   updateProduct = async (req, res) => {
       const { id } = req.params;
       const error = validationResult(req);
       const creatingError = errorCreate(error.array());
@@ -218,8 +208,7 @@ class ProductController {
       }
    };
 
-
-/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+   /**------------------------------------------------------------------------------------------------------------------------------------------------------------
  * @description    Delete Product by ID
  * @route          DELETE /api/v1/products/:id
  * @access         Admin
@@ -239,12 +228,10 @@ class ProductController {
          }
          // This error happens if you try to delete a product that is part of an order
          if (error.code === "P2003") {
-            return res
-               .status(409)
-               .json({
-                  message:
-                     "Cannot delete product as it is part of existing orders.",
-               });
+            return res.status(409).json({
+               message:
+                  "Cannot delete product as it is part of existing orders.",
+            });
          }
          console.error("Error deleting product:", error);
          res.status(500).json({ message: "Server error" });
