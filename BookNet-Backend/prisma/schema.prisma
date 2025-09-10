@@ -100,7 +100,8 @@ model Profile {
 
 model Category {
   id       String     @id @default(cuid())
-  name     String
+  name     String     @unique
+  image    String?
   parentId String?
   parent   Category?  @relation("CategoryHierarchy", fields: [parentId], references: [id])
   children Category[] @relation("CategoryHierarchy")
@@ -112,12 +113,14 @@ model Product {
   title       String
   description String?
   price       Decimal     @db.Decimal(10, 2)
+  salePrice   Decimal?     @db.Decimal(10, 2)
   type        ProductType
   stock       Int         @default(0)
   sku         String      @unique
   isDigital   Boolean     @default(false)
   downloadUrl String?
   categoryId  String?
+  images      ProductImage[]
   category    Category?   @relation(fields: [categoryId], references: [id])
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
@@ -125,6 +128,17 @@ model Product {
   // Relations
   orderItems OrderItem[]
   cartItems  CartItem[]
+}
+
+model ProductImage {
+  id        String   @id @default(cuid())
+  url       String
+  altText   String?
+  isPrimary Boolean  @default(false)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Cart {
