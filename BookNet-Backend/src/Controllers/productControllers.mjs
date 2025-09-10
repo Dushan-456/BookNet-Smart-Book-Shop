@@ -47,7 +47,6 @@ class ProductController {
              },
            },
            include: {
-             // Include category name for context
              images: {
                select: { url: true, isPrimary: true },
              },
