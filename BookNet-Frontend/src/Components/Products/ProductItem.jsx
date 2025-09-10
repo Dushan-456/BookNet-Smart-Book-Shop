@@ -1,6 +1,5 @@
 // src/Components/ProductItem/ProductItem.jsx
 import { Link } from "react-router-dom";
-import "./ProductItem.css";
 import Rating from "@mui/material/Rating";
 import Chip from "@mui/material/Chip";
 
@@ -20,7 +19,7 @@ const ProductItem = ({
    const originalPriceDisplay = price; // Always display original price for strikethrough
 
    return (
-      <div className="product-card w-full max-w-xs mx-auto rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+      <div className="product-card  max-w-xs  rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 m-3 p-1">
          <div className="relative w-full aspect-square">
             <Link to={`/product/${id}`}>
                <img
@@ -64,15 +63,15 @@ const ProductItem = ({
             <div className="flex items-baseline mb-1">
                {salePrice !== null && salePrice < price ? ( // Check if salePrice is valid and lower
                   <>
-                     <span className="text-lg font-bold text-black">
+                     <span className="text-sm md:text-lg font-bold text-black">
                         LKR {salePrice.toFixed(2)}
                      </span>
-                     <span className="text-red-400 line-through text-sm ml-2">
+                     <span className="text-red-400 line-through text-xs md:text-sm ml-2">
                         LKR {originalPriceDisplay.toFixed(2)}
                      </span>
                   </>
                ) : (
-                  <span className="text-lg font-bold text-black">
+                  <span className="text-sm md:text-lg font-bold text-black">
                      LKR {price.toFixed(2)}
                   </span>
                )}
