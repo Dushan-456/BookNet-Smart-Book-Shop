@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import "./ProductItem.css";
 import Rating from "@mui/material/Rating";
+import Chip from '@mui/material/Chip';
+
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
 const ProductItem = ({
@@ -21,6 +23,11 @@ const ProductItem = ({
             alt={title}
           />
         </Link>
+        {salePrice?(
+
+           <Chip color="success" label="Sale" className="absolute  top-2 left-2" />
+        ):("")}
+
 
         {/* Add to Cart button */}
         <button
