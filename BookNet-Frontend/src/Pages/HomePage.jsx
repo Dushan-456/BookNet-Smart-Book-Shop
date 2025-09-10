@@ -27,7 +27,6 @@ const HomePage = () => {
          </div>
          <div className="container mx-auto">
             <CategoryItemsRound />
-            {/* <AllProducts/> */}
             <ProductsPage/>
          </div>
       </div>
