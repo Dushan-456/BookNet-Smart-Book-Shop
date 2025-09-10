@@ -28,22 +28,14 @@ const ProductItem = ({
                   alt={title}
                />
             </Link>
-            {/* Show Sale Chip if there's a valid sale price */}
-            {salePrice !== null && salePrice < price && (
-               <Chip
-                  color="success"
-                  label="Sale"
-                  size="small"
-                  className="absolute top-2 left-2 z-20"
-               />
-            )}
+
             {/* Show Discount Chip if a percentage is passed */}
             {Discount > 0 && salePrice !== null && salePrice < price && (
                <Chip
                   label={`-${Discount}%`}
                   color="error"
                   size="small"
-                  className="absolute top-2 left-2 ml-14 z-20"
+                  className="absolute top-2 left-2  z-20"
                /> // Adjust ml-14 to place it next to "Sale"
             )}
 
