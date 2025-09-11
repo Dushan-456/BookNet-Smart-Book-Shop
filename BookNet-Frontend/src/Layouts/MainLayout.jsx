@@ -6,7 +6,10 @@ const MainLayout = () => {
    return (
       <div className=" w-full overflow-hidden min-h-screen">
          <Header />
+         <div className="mt-15 md:mt-40">
+
          <Outlet />
+         </div>
          <Footer />
       </div>
    );
