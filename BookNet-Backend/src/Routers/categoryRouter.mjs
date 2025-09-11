@@ -8,6 +8,7 @@ const categoryRouter = Router();
 // --- PUBLIC ROUTES ---
 
 categoryRouter.get("/", categoryController.getAllCategories);
+categoryRouter.get("/:id", categoryController.getCategoryById);
 
 
 // // --- ADMIN-ONLY ROUTES (Require Authentication & Authorization) ---
