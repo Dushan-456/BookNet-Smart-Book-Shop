@@ -7,6 +7,7 @@ import CategoryItemsRound from "../Components/Categories/CategoryItemsRound";
 import AllProducts from "../Components/Products/AllProducts";
 import Products from "../Components/Products/Products";
 
+
 const HomePage = () => {
    const [loading, setLoading] = useState(true);
 
@@ -28,6 +29,7 @@ const HomePage = () => {
          <div className="container mx-auto">
             <CategoryItemsRound />
             <Products/>
+
          </div>
       </div>
    );
