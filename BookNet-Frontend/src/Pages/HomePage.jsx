@@ -5,7 +5,7 @@ import Loading from "../Components/Loading/Loading";
 import Hero1 from "../Components/Hero/Hero1";
 import CategoryItemsRound from "../Components/Categories/CategoryItemsRound";
 import AllProducts from "../Components/Products/AllProducts";
-import ProductsPage from "../Components/Products/ProductsPage";
+import Products from "../Components/Products/Products";
 
 const HomePage = () => {
    const [loading, setLoading] = useState(true);
@@ -27,7 +27,7 @@ const HomePage = () => {
          </div>
          <div className="container mx-auto">
             <CategoryItemsRound />
-            <ProductsPage/>
+            <Products/>
          </div>
       </div>
    );
