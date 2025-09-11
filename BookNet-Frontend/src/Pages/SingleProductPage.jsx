@@ -7,9 +7,9 @@ const SingleProductPage = () => {
   return (
     <div className="w-7xl m-auto pt-10">
       <div className="section1 mt-3 flex ">
-        <div className="flex-3/4">
+        <div className="flex-3/4" >
           <div className=" flex mb-5">
-            <div className="images flex-2/5">
+            <div className="images flex-2/5 ">
               <ImagesGallery />
             </div>
             <div className="flex-3/5 m-3">
@@ -23,7 +23,7 @@ const SingleProductPage = () => {
         </div>
         <div className="pt-9  flex-1/4">
           <div
-            className=" sticky top-35 rounded-xl"
+            className=" sticky top-45 rounded-xl"
             style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px" }}
           >
             <StickyCard price={18750} />
