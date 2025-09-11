@@ -19,11 +19,11 @@ const ProductItem = ({
    const originalPriceDisplay = price; // Always display original price for strikethrough
 
    return (
-      <div className="product-card  max-w-xs  rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 m-3 p-1">
+      <div className="product-card  max-w-xs  rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 m-2 ">
          <div className="relative w-full aspect-square">
             <Link to={`/product/${id}`}>
                <img
-                  className="product-img w-full h-full object-cover"
+                  className="product-img w-full h-full object-cover m-1"
                   src={imageUrl}
                   alt={title}
                />
