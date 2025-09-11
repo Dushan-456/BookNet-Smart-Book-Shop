@@ -1,102 +1,63 @@
-// Import Swiper React components
+import React, { useState, useEffect } from "react";
+import API from "../../API/api";
 import { Swiper, SwiperSlide } from "swiper/react";
-
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/grid";
 import "swiper/css/pagination";
 import { Grid, Mousewheel } from "swiper/modules";
 import { Link } from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
-
-const categoryitems = [
-   {
-      CategoryID: 1,
-      CategoryImgURL:
-         "https://img.freepik.com/free-photo/open-book-library_1232-2876.jpg?w=740",
-      CategoryTitle: "Fiction",
-   },
-   {
-      CategoryID: 2,
-      CategoryImgURL:
-         "https://img.freepik.com/free-photo/stack-books-education_1232-2107.jpg?w=740",
-      CategoryTitle: "Non-Fiction",
-   },
-   {
-      CategoryID: 3,
-      CategoryImgURL:
-         "https://img.freepik.com/free-photo/child-reading-book_1098-18086.jpg?w=740",
-      CategoryTitle: "Children's Books",
-   },
-   {
-      CategoryID: 4,
-      CategoryImgURL:
-         "https://img.freepik.com/free-photo/teenage-girl-reading-book_1098-17613.jpg?w=740",
-      CategoryTitle: "Young Adult",
-   },
-   {
-      CategoryID: 5,
-      CategoryImgURL:
-         "https://img.freepik.com/free-photo/hardback-book-textbook_1150-11031.jpg?w=740",
-      CategoryTitle: "Educational & Textbooks",
-   },
-   {
-      CategoryID: 6,
-      CategoryImgURL:
-         "https://img.freepik.com/free-photo/research-science-book_1232-1544.jpg?w=740",
-      CategoryTitle: "Science & Technology",
-   },
-   {
-      CategoryID: 21,
-      CategoryImgURL:
-         "https://img.freepik.com/free-photo/notebooks-office-supplies_1232-2015.jpg?w=740",
-      CategoryTitle: "Notebooks & Diaries",
-   },
-   {
-      CategoryID: 22,
-      CategoryImgURL:
-         "https://img.freepik.com/free-photo/colorful-pens-stationery_1232-2190.jpg?w=740",
-      CategoryTitle: "Pens & Pencils",
-   },
-   {
-      CategoryID: 23,
-      CategoryImgURL:
-         "https://img.freepik.com/free-photo/office-paper-sheets_1232-2185.jpg?w=740",
-      CategoryTitle: "Paper & Files",
-   },
-   {
-      CategoryID: 24,
-      CategoryImgURL:
-         "https://img.freepik.com/free-photo/school-art-supplies_1232-2010.jpg?w=740",
-      CategoryTitle: "Art & Craft Supplies",
-   },
-   {
-      CategoryID: 25,
-      CategoryImgURL:
-         "https://img.freepik.com/free-photo/school-supplies-ruler-scissors_1232-2070.jpg?w=740",
-      CategoryTitle: "School Supplies",
-   },
-   {
-      CategoryID: 26,
-      CategoryImgURL:
-         "https://img.freepik.com/free-photo/office-supplies-stapler_1232-2055.jpg?w=740",
-      CategoryTitle: "Office Supplies",
-   },
-   {
-      CategoryID: 27,
-      CategoryImgURL:
-         "https://img.freepik.com/free-photo/backpack-with-school-supplies_1232-2105.jpg?w=740",
-      CategoryTitle: "Bags & Backpacks",
-   },
-   {
-      CategoryID: 28,
-      CategoryImgURL:
-         "https://img.freepik.com/free-photo/sticky-notes-reminders_1232-2117.jpg?w=740",
-      CategoryTitle: "Sticky Notes & Planners",
-   },
-];
+import { Box, CircularProgress, Typography, Alert } from "@mui/material"; // For loading/error UI
 
 const CategoryItemsRound = () => {
+   const [categories, setCategories] = useState([]);
+   const [loading, setLoading] = useState(true);
+   const [error, setError] = useState(null);
+
+   useEffect(() => {
+      const fetchCategories = async () => {
+         try {
+            setLoading(true);
+            setError(null);
+            const res = await API.get("/categories");
+            setCategories(res.data);
+         } catch (err) {
+            console.error("Error fetching categories for Swiper:", err);
+            setError("Failed to load categories.");
+         } finally {
+            setLoading(false);
+         }
+      };
+
+      fetchCategories();
+   }, []);
+
+   if (loading) {
+      return (
+         <Box sx={{ display: "flex", justifyContent: "center", p: 2 }}>
+            <CircularProgress size={24} />
+         </Box>
+      );
+   }
+
+   if (error) {
+      return (
+         <Box sx={{ p: 2 }}>
+            <Alert severity="error">{error}</Alert>
+         </Box>
+      );
+   }
+
+   if (categories.length === 0 && !loading && !error) {
+      return (
+         <Box sx={{ p: 2 }}>
+            <Typography variant="body1" color="textSecondary" align="center">
+               No categories available.
+            </Typography>
+         </Box>
+      );
+   }
+
    return (
       <section className="mt-5">
          <Swiper
@@ -112,7 +73,7 @@ const CategoryItemsRound = () => {
             modules={[Grid, Mousewheel]}
             breakpoints={{
                0: {
-                  // mobile (default)
+                  // mobile 
                   slidesPerView: 5,
                },
                640: {
@@ -124,14 +85,16 @@ const CategoryItemsRound = () => {
                   slidesPerView: 10,
                },
             }}>
-           
-            {categoryitems.map(
-               ({ CategoryID, CategoryImgURL, CategoryTitle }, index) => (
-                  <SwiperSlide key={index}>
+            {categories.map(( category ) => (
+                  <SwiperSlide key={category.id}>
+                     {" "}
                      <CategoryItems
-                        CategoryID={CategoryID}
-                        CategoryImgURL={CategoryImgURL}
-                        CategoryTitle={CategoryTitle}
+                        CategoryID={category.id} 
+                        CategoryImgURL={
+                           category.image ||
+                           "https://via.placeholder.com/80?text=No+Image"
+                        } 
+                        CategoryTitle={category.name} 
                      />
                   </SwiperSlide>
                )
@@ -153,7 +116,7 @@ const CategoryItems = ({ CategoryID, CategoryImgURL, CategoryTitle }) => (
                alt={CategoryTitle}
             />
          </IconButton>
-         <p className="text-center text-xs md:text-[1em]  leading-[1]">
+         <p className="text-center text-xs md:text-[1em] leading-[1]">
             {" "}
             {CategoryTitle}
          </p>
