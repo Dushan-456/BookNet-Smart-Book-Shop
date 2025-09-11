@@ -10,6 +10,7 @@ import RegisterPage from "../Pages/RegisterPage";
 import CartPage from "../Pages/CartPage";
 import ContactPage from "../Pages/ContactPage";
 import CheckoutPage from "../Pages/CheckoutPage";
+import SingleProductPage from "../Pages/SingleProductPage";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: "contact",
         element: <ContactPage />,
+      },
+      {
+        path: "product/:id",
+        element: <SingleProductPage />,
       },
 
       // --- Protected Routes (User must be logged in) --------------------------------------------------------------------------------------------------------------
