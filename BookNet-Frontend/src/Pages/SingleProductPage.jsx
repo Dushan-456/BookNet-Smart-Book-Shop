@@ -1,8 +1,8 @@
 
 import { Skeleton } from "@mui/material";
-import ImagesGallery from "../Components/SingleProductPage/ImagesGallery";
 import ProductDetails from "../Components/SingleProductPage/ProductDetails";
 import StickyCard from "../Components/SingleProductPage/StickyCard";
+import ProductImageGallery from "../Components/SingleProductPage/ProductImageGallery";
 
 const SingleProductPage = () => {
   return (
@@ -11,7 +11,7 @@ const SingleProductPage = () => {
         <div className="flex-3/4">
           <div className=" flex mb-5">
             <div className="images flex-2/5 ">
-              <ImagesGallery />
+              <ProductImageGallery />
             </div>
             <div className="flex-3/5 m-3">
               <ProductDetails
