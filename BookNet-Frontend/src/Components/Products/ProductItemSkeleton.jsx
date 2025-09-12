@@ -14,6 +14,7 @@ const ProductItemSkeleton = () => {
           <div className="flex gap-3">
             <Skeleton animation="wave" variant="text" className="flex-1/2" />
             <Skeleton animation="wave" variant="text" className="flex-1/2" />
+
           </div>
         </div>
       ))}
