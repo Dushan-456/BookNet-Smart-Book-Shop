@@ -46,7 +46,7 @@ const CategoryRoundSkeleton = () => {
                 width={isDesktop ? 100 : 60}
                 height={isDesktop ? 100 : 60}
               />
-              <Skeleton variant="text" className="w-full" />
+              <Skeleton animation="wave" variant="text" className="w-full" />
             </div>
           </SwiperSlide>
         ))}
