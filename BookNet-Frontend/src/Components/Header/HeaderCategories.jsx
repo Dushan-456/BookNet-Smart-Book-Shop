@@ -8,8 +8,7 @@ import API from "../../API/api";
 const HeaderCategories = () => {
    const [open, setOpen] = useState(false);
    const [categories, setCategories] = useState([]);
-   const [loading, setLoading] = useState(true);
-   const [error, setError] = useState(null);
+
    const dropdownRef = useRef(null);
    const navigate = useNavigate();
 
@@ -29,16 +28,13 @@ const HeaderCategories = () => {
       };
       const fetchCategories = async () => {
          try {
-            setLoading(true);
-            setError(null);
+       
             const res = await API.get("/categories");
             setCategories(res.data); // res.data is expected to be an array of category objects
          } catch (err) {
             console.error("Error fetching categories for Swiper:", err);
-            setError("Failed to load categories.");
-         } finally {
-            setLoading(false);
-         }
+           
+         } 
       };
 
       fetchCategories();
