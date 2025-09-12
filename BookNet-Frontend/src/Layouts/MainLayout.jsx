@@ -4,13 +4,11 @@ import Header from "../components/Header/Header";
 
 const MainLayout = () => {
    return (
-      <div className=" w-full  min-h-screen">
+      <div className=" w-full  ">
          <Header />
-         <div className="mt-22 md:mt-40">
 
 
          <Outlet />
-         </div>
          <Footer />
       </div>
    );
