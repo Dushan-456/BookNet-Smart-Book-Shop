@@ -14,7 +14,7 @@ const SingleProductPage = () => {
               <ImagesGallery />
             </div>
             <div className="flex-3/5 m-3">
-              <ProductDetails Price={25000} Discount={25} />
+              <ProductDetails price={25000} Discount={25} />
             </div>
           </div>
           <hr />

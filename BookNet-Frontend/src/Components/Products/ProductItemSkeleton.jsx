@@ -8,12 +8,13 @@ const ProductItemSkeleton = () => {
           key={index}
           className="  max-w-xs px-2 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 m-2 "
         >
-          <Skeleton className="!h-80 !-my-10" />
-          <Skeleton />
+          <Skeleton animation="wave" className="!h-80 !-my-10" />
+          <Skeleton animation="wave" />
 
           <div className="flex gap-3">
-            <Skeleton variant="text" className="flex-1/2" />
-            <Skeleton variant="text" className="flex-1/2" />
+            <Skeleton animation="wave" variant="text" className="flex-1/2" />
+            <Skeleton animation="wave" variant="text" className="flex-1/2" />
+
           </div>
         </div>
       ))}
