@@ -8,6 +8,7 @@ const MainLayout = () => {
          <Header />
          <div className="mt-22 md:mt-40">
 
+
          <Outlet />
          </div>
          <Footer />

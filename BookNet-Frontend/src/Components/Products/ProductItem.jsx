@@ -27,6 +27,7 @@ const ProductItem = ({
            />
          </Link>
 
+
          {/* Show Discount Chip if a percentage is passed */}
          {Discount > 0 && salePrice !== null && salePrice < price && (
            <Chip
