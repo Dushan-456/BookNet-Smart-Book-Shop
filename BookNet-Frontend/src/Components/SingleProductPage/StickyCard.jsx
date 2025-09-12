@@ -50,7 +50,7 @@ const StickyCard = ({ price }) => {
         <Button variant="contained" className="w-full !bg-red-500 !mb-3">
           Buy Now
         </Button>
-        <Button variant="outlined" className="w-full">
+        <Button variant="contained" className="w-full !bg-green-600">
           Add to Cart
         </Button>
       </div>
