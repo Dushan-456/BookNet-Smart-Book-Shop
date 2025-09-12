@@ -1,6 +1,5 @@
 import Rating from "@mui/material/Rating";
-import Chip from "@mui/material/Chip";
-
+import ArticleIcon from '@mui/icons-material/Article';
 const ProductDetails = ({
   title,
   price,
@@ -10,9 +9,9 @@ const ProductDetails = ({
   Discount = 0,
 }) => {
   return (
-    <div>
+    <div className="px-4">
       <div className="bg-gray-500 flex items-center justify-between p-1 rounded-md px-5 text-white font-bold">
-        <h4>Category - Books</h4>
+        <h4> <ArticleIcon/> Category - Books</h4>
         <h4>Type - Books</h4>
       </div>
       {salePrice !== null && salePrice < price ? ( // Check if salePrice is valid and lower
@@ -53,7 +52,7 @@ const ProductDetails = ({
       <hr className=" text-[#b7bbbb83] shadow-2xl" />
       <div>
         <p className="font-bold" >Discription :</p>
-        <p>
+        <p className="text-justify">
 
         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laborum, eum minima quis possimus impedit obcaecati? Aut officiis laudantium optio facere dolor, quam eius, corrupti enim laborum hic vero. Ab aspernatur perferendis doloremque animi rem laborum et aut, ut ad ducimus cupiditate modi officiis eos. Vitae facere eligendi ducimus corrupti natus!
         </p>
