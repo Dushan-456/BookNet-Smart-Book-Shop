@@ -57,7 +57,7 @@ function Header() {
             </IconButton>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <div className="search border-1 rounded-3xl w-full mx-20 flex items-center justify-between ps-5">
+            <div className=" border-1 rounded-3xl w-full mx-20 flex items-center justify-between ps-5">
               <input
                 className="outline-none w-full"
                 type="text"
