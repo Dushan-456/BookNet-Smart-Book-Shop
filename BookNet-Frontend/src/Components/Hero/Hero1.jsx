@@ -60,4 +60,5 @@ export default Hero1;
 
 const Images = ({ imgURL, id }) => (
    <img className="w-full h-50 md:h-120 object-cover" src={imgURL} alt={`ad${id}`} />
+
 );

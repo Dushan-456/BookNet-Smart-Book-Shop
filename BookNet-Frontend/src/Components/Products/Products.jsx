@@ -141,9 +141,7 @@ const Products = () => {
         ))}
       </div>
 
-      {loading && page > 1 && (
-        <ProductItemSkeleton />
-      )}
+      {loading && page > 1 && <ProductItemSkeleton />}
 
       {!loading && hasMore && (
         <Box sx={{ display: "flex", justifyContent: "center", mt: 6 }}>
