@@ -26,7 +26,7 @@ function Header() {
 
 
   return (
-    <div className="fixed backdrop-blur-xl top-0 w-full z-50 bg-[#ffffff80]"
+    <div className="sticky backdrop-blur-xl top-0 w-full z-50 bg-[#ffffff80]"
 
       style={{
         boxShadow:
