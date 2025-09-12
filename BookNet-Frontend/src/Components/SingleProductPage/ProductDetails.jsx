@@ -2,7 +2,15 @@ import "./ProductDetails.css";
 import Rating from "@mui/material/Rating";
 import Chip from "@mui/material/Chip";
 
-const ProductDetails = ({ Price, Discount }) => {
+const ProductDetails = ({
+
+  title,
+  price,
+  salePrice,
+  ratings = 0,
+  itemSold = 0,
+  Discount = 0,
+}) => {
   return (
     <div>
       <div className="bg-gray-500 flex items-center justify-between p-1 rounded-md px-5 text-white font-bold">
@@ -11,16 +19,22 @@ const ProductDetails = ({ Price, Discount }) => {
       </div>
       <h3 className="product-price">
         <span className="currency">LKR </span>
-        {(Price * (100 - Discount)) / 100}.00{" "}
-        <span className="product-old-price">{Price}.00</span>
+        {(price * (100 - Discount)) / 100}.00{" "}
+        <span className="product-old-price">{price}.00</span>
+        {Discount > 0 && salePrice !== null && salePrice < price && (
+          <Chip
+            label={`-${Discount}%`}
+            color="error"
+            size="small"
+            className="absolute top-2 left-2  z-20"
+          /> // Adjust ml-14 to place it next to "Sale"
+        )}
         <span className="product-discount"> -{Discount}% OFF</span>
       </h3>
       <span className="small-texts">
         Tax excluded, add at checkout if applicable
       </span>
-      <h3 className="product-title pt-3 pb-1">
-        500ml Cute Bear Portable Water Bottle Bottle Drinking Cup
-      </h3>
+      <h3 className="product-title pt-3 pb-1">{title}</h3>
 
       <div className="flex align-middle">
         <Rating
