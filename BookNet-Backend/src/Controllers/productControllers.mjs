@@ -73,6 +73,10 @@ class ProductController {
             where: { id },
             include: {
                category: true,
+               
+               images: {
+                  select: { url: true, isPrimary: true },
+               },
             },
          });
 
