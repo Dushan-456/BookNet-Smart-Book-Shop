@@ -6,10 +6,14 @@ import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import IconButton from "@mui/material/IconButton";
+import AppsIcon from "@mui/icons-material/Apps";
+import HomeIcon from "@mui/icons-material/Home";
+import AddCallIcon from "@mui/icons-material/AddCall";
+import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
+import ImportContactsIcon from "@mui/icons-material/ImportContacts";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
 import { Link, useNavigate } from "react-router-dom";
 
 import { Avatar } from "@mui/material";
@@ -109,7 +113,7 @@ export default function SideDrawerMenu() {
             <ListItem>
               <ListItemButton component={Link} to="/">
                 <ListItemIcon>
-                  <InboxIcon />
+                  <HomeIcon />
                 </ListItemIcon>
                 Home
               </ListItemButton>
@@ -118,7 +122,7 @@ export default function SideDrawerMenu() {
             <ListItem>
               <ListItemButton component={Link} to="/about">
                 <ListItemIcon>
-                  <InboxIcon />
+                  <AppsIcon />
                 </ListItemIcon>
                 About Us
               </ListItemButton>
@@ -127,7 +131,7 @@ export default function SideDrawerMenu() {
             <ListItem>
               <ListItemButton component={Link} to="/contact">
                 <ListItemIcon>
-                  <InboxIcon />
+                  <AddCallIcon />
                 </ListItemIcon>
                 Contact
               </ListItemButton>
@@ -136,7 +140,7 @@ export default function SideDrawerMenu() {
             <ListItem>
               <ListItemButton component={Link} to="/books">
                 <ListItemIcon>
-                  <InboxIcon />
+                  <LibraryBooksIcon />
                 </ListItemIcon>
                 Books
               </ListItemButton>
@@ -145,7 +149,7 @@ export default function SideDrawerMenu() {
             <ListItem>
               <ListItemButton component={Link} to="/tationery">
                 <ListItemIcon>
-                  <InboxIcon />
+                  <BorderColorIcon />
                 </ListItemIcon>
                 Stationery Items
               </ListItemButton>
@@ -154,7 +158,7 @@ export default function SideDrawerMenu() {
             <ListItem>
               <ListItemButton component={Link} to="/services">
                 <ListItemIcon>
-                  <InboxIcon />
+                  <ImportContactsIcon />
                 </ListItemIcon>
                 Services
               </ListItemButton>
@@ -163,7 +167,7 @@ export default function SideDrawerMenu() {
             <ListItem>
               <ListItemButton component={Link} to="/profile">
                 <ListItemIcon>
-                  <InboxIcon />
+                  <AccountCircleIcon />
                 </ListItemIcon>
                 My Profile
               </ListItemButton>
