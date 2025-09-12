@@ -21,15 +21,14 @@ const StickyCard = ({ price }) => {
         <h3>Smart Book Shop</h3>
         <h3 className="font-bold">
           <StorefrontIcon /> BookNet
-
         </h3>
       </div>
-      <hr />
-      <h3 className="product-price">
-        <span className="currency">LKR </span>
+      <hr className=" text-[#b7bbbb83] shadow-2xl" />
+      <h3 className="text-4xl font-bold">
+        <span className="text-3xl">LKR </span>
         {price * qty}.00{" "}
       </h3>
-      <hr />
+      <hr className=" text-[#b7bbbb83] shadow-2xl" />
       <h2 className="font-bold text-center">Quantity</h2>
       <div className="flex gap-5 justify-center items-center">
         <button
@@ -52,7 +51,6 @@ const StickyCard = ({ price }) => {
           Buy Now
         </Button>
         <Button variant="contained" className="w-full !bg-green-600">
-
           Add to Cart
         </Button>
       </div>
