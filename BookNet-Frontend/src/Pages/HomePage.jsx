@@ -21,7 +21,7 @@ const HomePage = () => {
 
    return (
       <div >
-         <div className="w-screen -mt-10">
+         <div className="w-screen -mt-5">
             <Hero1 />
          </div>
          <div className="container mx-auto">
