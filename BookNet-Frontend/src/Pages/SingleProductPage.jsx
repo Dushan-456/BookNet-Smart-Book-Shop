@@ -6,7 +6,7 @@ import StickyCard from "../Components/SingleProductPage/StickyCard";
 
 const SingleProductPage = () => {
   return (
-    <div className="w-7xl m-auto">
+    <div className="w-7xl m-auto pt-2">
       <div className="section1 mt-3 flex ">
         <div className="flex-3/4">
           <div className=" flex mb-5">
@@ -14,10 +14,17 @@ const SingleProductPage = () => {
               <ImagesGallery />
             </div>
             <div className="flex-3/5 m-3">
-              <ProductDetails price={25000} Discount={25} />
+              <ProductDetails
+                price={25000}
+                salePrice={1140}
+                Discount={25}
+                title={
+                  "nnvkfnvkndfkvnkdnfvkn fnvnnvknfem envin  knknknk nknkn nkn no knnk "
+                }
+              />
             </div>
           </div>
-          <hr />
+          <hr className=" text-[#b7bbbb83] shadow-2xl" />
           <div className="h-screen">
             <h1>reviews</h1>
             <Skeleton className="!h-96 !rounded-2xl" />
