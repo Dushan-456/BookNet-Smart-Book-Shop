@@ -1,10 +1,8 @@
-import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import Loading from "../Components/Loading/Loading";
 import Hero1 from "../Components/Hero/Hero1";
 import CategoryItemsRound from "../Components/Categories/CategoryItemsRound";
-import AllProducts from "../Components/Products/AllProducts";
 import Products from "../Components/Products/Products";
 
 
@@ -14,7 +12,7 @@ const HomePage = () => {
    useEffect(() => {
       const timer = setTimeout(() => {
          setLoading(false);
-      }, 1000); // 2 seconds fake loading
+      }, 200); //  fake loading
 
       return () => clearTimeout(timer); // cleanup
    }, []);
@@ -23,7 +21,7 @@ const HomePage = () => {
 
    return (
       <div >
-         <div className="w-screen">
+         <div className="w-screen -mt-10">
             <Hero1 />
          </div>
          <div className="container mx-auto">
