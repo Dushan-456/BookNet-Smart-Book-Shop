@@ -5,8 +5,9 @@ import Chip from "@mui/material/Chip";
 const ProductDetails = ({ Price, Discount }) => {
   return (
     <div>
-      <div className="bg-orange-600 p-1 rounded-md pl-5 text-white font-bold">
-        <h4>Welcome Deal</h4>
+      <div className="bg-gray-500 flex items-center justify-between p-1 rounded-md px-5 text-white font-bold">
+        <h4>Category - Books</h4>
+        <h4>Category - Books</h4>
       </div>
       <h3 className="product-price">
         <span className="currency">LKR </span>

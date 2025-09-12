@@ -1,15 +1,10 @@
-// src/Pages/ProductsPage.jsx
 import React, { useState, useEffect, useCallback } from "react";
 
-import {
-  Alert,
-  Box,
-  Typography,
-  Button,
-  CircularProgress,
-} from "@mui/material";
+import { Alert, Box, Typography, Button } from "@mui/material";
 import API from "../../API/api";
 import ProductItem from "./ProductItem";
+import placeholdeImage from "../../Assets/Images/placeholder.jpg";
+import ProductItemSkeleton from "./ProductItemSkeleton";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -41,7 +36,7 @@ const Products = () => {
         const primaryImage =
           product.images.find((img) => img.isPrimary)?.url ||
           product.images[0]?.url ||
-          "https://via.placeholder.com/280x280?text=No+Image";
+          placeholdeImage;
         const parsedPrice = parseFloat(product.price);
         const parsedSalePrice = product.salePrice
           ? parseFloat(product.salePrice)
@@ -103,18 +98,7 @@ const Products = () => {
   };
 
   if (loading && page === 1 && products.length === 0) {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          minHeight: "80vh",
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
+    return <ProductItemSkeleton />;
   }
 
   if (error && page === 1 && products.length === 0) {
@@ -122,10 +106,6 @@ const Products = () => {
       <Box
         sx={{
           p: 3,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          minHeight: "80vh",
         }}
       >
         <Alert severity="error">{error}</Alert>
@@ -161,11 +141,7 @@ const Products = () => {
         ))}
       </div>
 
-      {loading && page > 1 && (
-        <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
-          <CircularProgress size={30} />
-        </Box>
-      )}
+      {loading && page > 1 && <ProductItemSkeleton />}
 
       {!loading && hasMore && (
         <Box sx={{ display: "flex", justifyContent: "center", mt: 6 }}>

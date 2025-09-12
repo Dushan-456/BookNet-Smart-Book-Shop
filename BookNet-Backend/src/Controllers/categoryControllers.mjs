@@ -3,8 +3,7 @@ import { matchedData, validationResult } from "express-validator";
 import DB from "../db/db.mjs";
 
 class CategoryController {
-
-/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+   /**------------------------------------------------------------------------------------------------------------------------------------------------------------
  * @description    Get All Categories
  * @route          GET /api/v1/categories/
  * @access         Public
@@ -13,40 +12,38 @@ class CategoryController {
       try {
          const categories = await DB.category.findMany();
 
-         // Helper function to build the tree structure
-         const buildCategoryTree = (list) => {
-            const map = {};
-            const roots = [];
-
-            list.forEach((cat, i) => {
-               map[cat.id] = i; // Use map to look up the array index of each category
-               list[i].children = []; // Initialize children array
-            });
-
-            list.forEach((cat) => {
-               if (cat.parentId !== null) {
-                  // If it's a child, push it to its parent's children array
-                  if (list[map[cat.parentId]]) {
-                     list[map[cat.parentId]].children.push(cat);
-                  }
-               } else {
-                  // If it's a root node (no parent), push it to the roots array
-                  roots.push(cat);
-               }
-            });
-            return roots;
-         };
-
-         const categoryTree = buildCategoryTree(categories);
-         res.status(200).json(categoryTree);
+         res.status(200).json(categories);
       } catch (error) {
          console.error("Error fetching categories:", error);
          res.status(500).json({ message: "Internal Server error" });
       }
    };
 
+   /**------------------------------------------------------------------------------------------------------------------------------------------------------------
+ * @description    Get a Single Category by ID
+ * @route          GET /api/v1/categories/:id
+ * @access         Public
+ ---------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+   getCategoryById = async (req, res) => {
+      const { id } = req.params;
+      try {
+         const category = await DB.category.findUnique({
+            where: { id },
+         });
 
-/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+         if (!category) {
+            return res
+               .status(404)
+               .json({ message: `Category with ID ${id} not found.` });
+         }
+         res.status(200).json(category);
+      } catch (error) {
+         console.error(`Error fetching category with ID ${id}:`, error);
+         res.status(500).json({ message: "Internal Server error" });
+      }
+   };
+
+   /**------------------------------------------------------------------------------------------------------------------------------------------------------------
  * @description    Create New Category
  * @route          POST /api/v1/categories/
  * @access         Admin
@@ -62,41 +59,30 @@ class CategoryController {
          });
       }
 
-      let { name, parentId } = matchedData(req);
-
-      // Handle empty string case: if parentId is an empty string, treat it as null
-      if (parentId === "") {
-         parentId = null;
-      }
+      let { name, image } = matchedData(req);
 
       try {
-         if (parentId) {
-            const parentCategory = await DB.category.findUnique({
-               where: { id: parentId },
-            });
-
-            if (!parentCategory) {
-               return res
-                  .status(400)
-                  .json({ message: "Parent category not found." });
-            }
-         }
-
          const newCategory = await DB.category.create({
             data: {
                name,
-               parentId,
+               image,
             },
          });
          res.status(201).json(newCategory);
       } catch (error) {
          console.error("Error creating category:", error);
+         if (error.code === "P2002" && error.meta?.target?.includes("name")) {
+            return res
+               .status(409)
+               .json({
+                  message: `Category with name '${name}' already exists.`,
+               });
+         }
          res.status(500).json({ message: "Internal Server error" });
       }
    };
 
-
-/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+   /**------------------------------------------------------------------------------------------------------------------------------------------------------------
  * @description    Update Category
  * @route          PUT /api/v1/categories/:id
  * @access         Admin
@@ -114,29 +100,14 @@ class CategoryController {
          });
       }
 
-      let { name, parentId } = matchedData(req);
-      // Handle empty string case: if parentId is an empty string, treat it as null
-      if (parentId === "") {
-         parentId = null;
-      }
+      let { name, image } = matchedData(req);
 
       try {
-         if (parentId) {
-            const parentCategory = await DB.category.findUnique({
-               where: { id: parentId },
-            });
-
-            if (!parentCategory) {
-               return res
-                  .status(400)
-                  .json({ message: "Parent category not found." });
-            }
-         }
          const updatedCategory = await DB.category.update({
             where: { id },
             data: {
                name,
-               parentId,
+               image,
             },
          });
          res.status(200).json(updatedCategory);
@@ -146,13 +117,19 @@ class CategoryController {
                .status(404)
                .json({ message: `Category with ID ${id} not found.` });
          }
+         if (error.code === "P2002" && error.meta?.target?.includes("name")) {
+            return res
+               .status(409)
+               .json({
+                  message: `Category with name '${name}' already exists.`,
+               });
+         }
          console.error("Error updating category:", error);
          res.status(500).json({ message: "Internal Server error" });
       }
    };
 
-
-/**------------------------------------------------------------------------------------------------------------------------------------------------------------
+   /**------------------------------------------------------------------------------------------------------------------------------------------------------------
  * @description    Delete Category
  * @route          DELETE /api/v1/categories/:id
  * @access         Admin
@@ -161,16 +138,13 @@ class CategoryController {
       const { id } = req.params;
 
       try {
-         // Safety Check: Prevent deletion if the category has children
-         const childCount = await DB.category.count({
-            where: { parentId: id },
+         const existingCategory = await DB.category.findUnique({
+            where: { id },
          });
-
-         if (childCount > 0) {
-            return res.status(400).json({
-               message:
-                  "Cannot delete category because it has child categories. Please delete or reassign children first.",
-            });
+         if (!existingCategory) {
+            return res
+               .status(404)
+               .json({ message: `Category with ID ${id} not found.` });
          }
 
          await DB.category.delete({

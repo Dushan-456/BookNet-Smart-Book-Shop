@@ -79,7 +79,11 @@ export const CategoryFieldsValidator = () => [
       .escape()
       .notEmpty()
       .withMessage("Category name is required"),
-   body("parentId").trim().escape(),
+   body("image")
+      .trim()
+      .escape()
+      .notEmpty()
+      .withMessage("Category name is required"),
 ];
 
 //Product Fields validate------------------------------------------------------------------------------------------------------------------------

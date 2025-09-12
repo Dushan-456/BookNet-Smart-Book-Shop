@@ -18,9 +18,10 @@ const StickyCard = ({ price }) => {
   return (
     <div className="flex flex-col gap-5 h-full m-4">
       <div className="flex pt-2 items-center justify-between">
-        <h3>EFTY-4568</h3>
+        <h3>Smart Book Shop</h3>
         <h3 className="font-bold">
-          <StorefrontIcon /> clickSHOP
+          <StorefrontIcon /> BookNet
+
         </h3>
       </div>
       <hr />
@@ -50,7 +51,8 @@ const StickyCard = ({ price }) => {
         <Button variant="contained" className="w-full !bg-red-500 !mb-3">
           Buy Now
         </Button>
-        <Button variant="outlined" className="w-full">
+        <Button variant="contained" className="w-full !bg-green-600">
+
           Add to Cart
         </Button>
       </div>

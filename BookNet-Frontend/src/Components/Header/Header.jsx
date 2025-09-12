@@ -13,7 +13,6 @@ import MenuItem from "@mui/material/MenuItem";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import Badge from "@mui/material/Badge";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
-import "./Header.css";
 import logo from "../../assets/Images/BookNet-Logo-Small-without-BG.png";
 import UserIcon from "./UserIcon";
 import { useNavigate } from "react-router-dom";
@@ -27,13 +26,14 @@ function Header() {
 
 
   return (
-    <div className="fixed w-full z-50 bg-white"
+    <div className="fixed backdrop-blur-xl top-0 w-full z-50 bg-[#ffffff80]"
+
       style={{
         boxShadow:
           "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
       }}
     >
-      <div className="container   py-1 px-2 m-auto">
+      <div className="container px-2 m-auto">
         <div className="flex items-center">
           <IconButton
             sx={{ borderRadius: 3, display: { xs: "none", md: "flex" } }}
@@ -58,11 +58,11 @@ function Header() {
             </IconButton>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <div className="search">
+            <div className=" border-1 rounded-3xl w-full mx-20 flex items-center justify-between ps-5">
               <input
-                className="outline-none"
+                className="outline-none w-full"
                 type="text"
-                placeholder="Search"
+                placeholder="Search Your Product..."
               />
               <IconButton color="black">
                 <SearchIcon />
@@ -106,7 +106,7 @@ function Header() {
           </div>
         </div>
       </div>
-      <div className="container px-20 pb-2  m-auto hidden md:flex items-center justify-between">
+      <div className="container px-20 pb-1 m-auto hidden md:flex items-center justify-between">
         <HeaderCategories />
         <HeaderNavMenu />
       </div>
